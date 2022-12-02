@@ -37,11 +37,11 @@ void runGame();
 int main()
 {
     gameMenu();
-    printf("%i %i", game.ukuran, game.ronde);
+    /* printf("%i %i", game.ukuran, game.ronde);
     printf("\n%s", game.player1.nama);
     printf("\n%s", game.player2.nama);
     printf("\n%c", game.player1.simbol);
-    printf("\n%c", game.player2.simbol);
+    printf("\n%c", game.player2.simbol); */
 }
 
 void gameMenu()
