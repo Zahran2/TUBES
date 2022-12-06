@@ -33,7 +33,10 @@ void displayPlayer();
 void displayPapan();
 void saveFile();
 void runGame();
+void displayMenu();
+void readMenu(int *menu);
 
+#define garis "\n==========================================\n"
 int main()
 {
     gameMenu();
@@ -46,6 +49,24 @@ int main()
 
 void gameMenu()
 {
+    int menu;
+    displayMenu();
+    readMenu(&menu);
+    switch (menu)
+    {
+    case 1:
+        /* code */
+        break;
+    case 2:
+
+        break;
+    case 3:
+
+        break;
+    default:
+        printf("Inputan salah!");
+        break;
+    }
     readUkuran();
     readRonde();
     readNama();
@@ -126,3 +147,25 @@ void readSimbol()
     } while (toupper(game.player1.simbol) != 'X');
 }
 
+void displayMenu()
+{
+    printf("\n\t\t ___________  ___  _______    ___________  ________  _______   ___________  ________  ________ ");
+	printf("\n\t\t/___   ____/ /  / /  ____/   /___   ____/ /  __   / /  ____/  /___   ____/ /  __   / /  _____/ ");
+	printf("\n\t\t   /  /     /  / /  /           /  /     /  /_/  / /  /          /  /     /  / /  / /  /___    ");
+	printf("\n\t\t  /  /     /  / /  /           /  /     /  __   / /  /          /  /     /  / /  / /  ____/    ");
+	printf("\n\t\t /  /     /  / /  /___        /  /     /  / /  / /  /___       /  /     /  /_/  / /  /____     ");
+	printf("\n\t\t/__/     /__/ /______/       /__/     /__/ /__/ /______/      /__/     /_______/ /_______/     \n");
+	printf("\n\t\t\t\t\t _   _   __     __    _   _   __  __       ");
+	printf("\n\t\t\t\t\t| |_| | |__| | |  |  | |_| | |_  |  | |  | ");
+	printf("\n\t\t\t\t\t|     | |  | | |  |  |     | |__ |  | |__| \n");
+	printf("\n\t\t\t\t\t\t\t(1)  NEW GAME  ");
+	printf("\n\t\t\t\t\t\t\t(2)  LOAD GAME ");
+	printf("\n\t\t\t\t\t\t\t(3)  HIGH SCORE");
+	printf("\n\t\t\t\t\t\t\t(99) QUIT GAME ");	
+}
+
+void readMenu(int *menu)
+{
+    printf("Silahkan masukkan input: ");
+    scanf("%d", &(*menu));
+}
