@@ -36,7 +36,8 @@ void displayMenu();
 void readMenu(int *menu);
 void newGame();
 void loadGame();
-void highscore();
+void highScore();
+void displayBanner();
 
 #define garis "\n==========================================\n"
 int main()
@@ -47,11 +48,25 @@ int main()
 void gameMenu()
 {
     int menu;
-    displayMenu();
+    menu = 1;
     do
     {
+        displayMenu();
         readMenu(&menu);
-        switch (menu)
+        if (menu == 1)
+        {
+            newGame();
+        }
+        else if (menu == 2)
+        {
+            loadGame();
+        }
+        else if (menu == 3)
+        {
+            highScore();
+        }
+        system("cls");
+        /* switch (menu)
         {
         case 1:
             newGame();
@@ -64,11 +79,10 @@ void gameMenu()
             return 0;
         default:
             printf("Inputan salah!");
-            break;
+            system("cls");
         }
-    } while (menu < 1 && menu > 3 && menu != 99);
-
-    
+        */
+    } while ((menu < 1 || menu > 3) && menu != 99);
 }
 
 void readUkuran()
@@ -77,6 +91,7 @@ void readUkuran()
     game.ukuran = 1;
     do
     {
+        displayBanner();
         printf("Menu Ukuran Papan");
         printf("\n(1) 3 x 3");
         printf("\n(2) 5 x 5");
@@ -88,7 +103,6 @@ void readUkuran()
         printf("\nSilahkan masukkan ukuran papan: ");
         scanf("%i", &game.ukuran);
         system("cls");
-
     } while (game.ukuran < 1 || game.ukuran > 3);
 }
 
@@ -97,6 +111,7 @@ void readRonde()
     game.ronde = 1;
     do
     {
+        displayBanner();
         printf("Menu Ronde");
         printf("\n(1) Best of 1");
         printf("\n(2) Best of 3");
@@ -112,6 +127,7 @@ void readRonde()
 
 void readNama()
 {
+    displayBanner();
     printf("Player 1");
     printf("\nSilahkan masukkan nama anda: ");
     scanf(" %[^\n]%*c", game.player1.nama);
@@ -126,6 +142,7 @@ void readSimbol()
     game.player1.simbol = 'X';
     do
     {
+        displayBanner();
         printf("Player 1");
         if (game.player1.simbol == 'X')
         {
@@ -148,12 +165,7 @@ void readSimbol()
 
 void displayMenu()
 {
-    printf("\n\t\t ___________  ___  _______    ___________  ________  _______   ___________  ________  ________ ");
-    printf("\n\t\t/___   ____/ /  / /  ____/   /___   ____/ /  __   / /  ____/  /___   ____/ /  __   / /  _____/ ");
-    printf("\n\t\t   /  /     /  / /  /           /  /     /  /_/  / /  /          /  /     /  / /  / /  /___    ");
-    printf("\n\t\t  /  /     /  / /  /           /  /     /  __   / /  /          /  /     /  / /  / /  ____/    ");
-    printf("\n\t\t /  /     /  / /  /___        /  /     /  / /  / /  /___       /  /     /  /_/  / /  /____     ");
-    printf("\n\t\t/__/     /__/ /______/       /__/     /__/ /__/ /______/      /__/     /_______/ /_______/     \n");
+    displayBanner();
     printf("\n\t\t\t\t\t _   _   __     __    _   _   __  __       ");
     printf("\n\t\t\t\t\t| |_| | |__| | |  |  | |_| | |_  |  | |  | ");
     printf("\n\t\t\t\t\t|     | |  | | |  |  |     | |__ |  | |__| \n");
@@ -165,6 +177,10 @@ void displayMenu()
 
 void readMenu(int *menu)
 {
+    if ((*menu < 1 || *menu > 3) && *menu != 99)
+    {
+        printf("\nInputan salah!");
+    }
     printf("\nSilahkan masukkan input: ");
     scanf("%d", &(*menu));
 }
@@ -179,6 +195,26 @@ void newGame()
 }
 
 void runGame(Game game)
+{
+
+}
+
+void displayBanner()
+{
+    printf("\n\t\t ___________  ___  _______    ___________  ________  _______   ___________  ________  ________ ");
+	printf("\n\t\t/___   ____/ /  / /  ____/   /___   ____/ /  __   / /  ____/  /___   ____/ /  __   / /  _____/ ");
+	printf("\n\t\t   /  /     /  / /  /           /  /     /  /_/  / /  /          /  /     /  / /  / /  /___    ");
+	printf("\n\t\t  /  /     /  / /  /           /  /     /  __   / /  /          /  /     /  / /  / /  ____/    ");
+	printf("\n\t\t /  /     /  / /  /___        /  /     /  / /  / /  /___       /  /     /  /_/  / /  /____     ");
+	printf("\n\t\t/__/     /__/ /______/       /__/     /__/ /__/ /______/      /__/     /_______/ /_______/     \n");
+}
+
+void loadGame()
+{
+    
+}
+
+void highScore()
 {
 
 }
