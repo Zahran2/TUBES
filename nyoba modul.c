@@ -32,7 +32,6 @@ void displayGame();
 void displayPlayer();
 void displayPapan();
 void saveFile();
-void runGame();
 void displayMenu();
 void readMenu(int *menu);
 void newGame();
@@ -176,4 +175,10 @@ void newGame()
     readRonde();
     readNama();
     readSimbol();
+    runGame(game);
+}
+
+void runGame(Game game)
+{
+
 }
