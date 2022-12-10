@@ -39,7 +39,7 @@ void loadGame();
 void highScore();
 void displayBanner();
 
-#define garis "\n==========================================\n"
+#define DASH "\n==========================================\n"
 int main()
 {
     gameMenu();
@@ -53,6 +53,7 @@ void gameMenu()
     {
         displayMenu();
         readMenu(&menu);
+        printf("%d, menu");
         if (menu == 1)
         {
             newGame();
@@ -65,23 +66,7 @@ void gameMenu()
         {
             highScore();
         }
-        system("cls");
-        /* switch (menu)
-        {
-        case 1:
-            newGame();
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 99:
-            return 0;
-        default:
-            printf("Inputan salah!");
-            system("cls");
-        }
-        */
+        //system("cls");
     } while ((menu < 1 || menu > 3) && menu != 99);
 }
 
@@ -160,7 +145,7 @@ void readSimbol()
         scanf(" %c", &game.player1.simbol);
         game.player1.simbol = toupper(game.player1.simbol);
         system("cls");
-    } while (toupper(game.player1.simbol) != 'X');
+    } while (toupper(game.player1.simbol) != 'X' && toupper(game.player1.simbol) != 'O');
 }
 
 void displayMenu()
@@ -191,13 +176,15 @@ void newGame()
     readRonde();
     readNama();
     readSimbol();
-    runGame(game);
+    runGame();
 }
 
-void runGame(Game game)
+void runGame()
 {
+    char simbol;
     displayBanner();
-    
+    displayPapan();
+    scanf("%c", simbol);
 }
 
 void displayBanner()
@@ -223,4 +210,14 @@ void highScore()
 void saveFile()
 {
 
+}
+
+void displayPapan()
+{
+    printf("%s\n", DASH); // print board layout with numbers.
+    for (int i = 1; i <= 9; i += 3)
+    {
+        printf("\t %d | %d | %d \n", i, (i + 1), (i + 2));
+    }  
+    printf("%s", DASH);
 }
