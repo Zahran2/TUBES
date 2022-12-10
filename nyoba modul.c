@@ -196,7 +196,8 @@ void newGame()
 
 void runGame(Game game)
 {
-
+    displayBanner();
+    
 }
 
 void displayBanner()
@@ -215,6 +216,11 @@ void loadGame()
 }
 
 void highScore()
+{
+
+}
+
+void saveFile()
 {
 
 }
