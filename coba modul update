@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+typedef struct
+{
+    char nama[100];
+    char simbol;
+    int score;
+    int highscore;
+} Player;
+
+typedef struct
+{
+    int ukuran;
+    int ronde;
+    int giliran;
+    int skor;
+    Player player1;
+    Player player2;
+} Game;
+Game game;
+
+int gameMenu();
+void displayMenu();
+void displayBanner();
+int newGame();
+int loadGame();
+int highScore();
+
+int main()
+{
+    int menu;
+    menu = gameMenu();
+    
+
+}
+
+int gameMenu()
+{
+    int menu;
+    menu = 1;
+    do
+    {
+        displayMenu();
+        if ((menu < 1 || menu > 3) && menu != 99)
+        {
+            printf("Inputan salah!");
+        }
+        readMenu(&menu);
+    } while ((menu < 1 || menu > 3) && menu != 99);
+    return menu;
+}
+
+
+void displayMenu()
+{
+    displayBanner();
+    printf("\n\t\t\t\t\t _   _   __     __    _   _   __  __       ");
+	printf("\n\t\t\t\t\t| |_| | |__| | |  |  | |_| | |_  |  | |  | ");
+	printf("\n\t\t\t\t\t|     | |  | | |  |  |     | |__ |  | |__| \n");
+	printf("\n\t\t\t\t\t\t\t(1)  NEW GAME  ");
+	printf("\n\t\t\t\t\t\t\t(2)  LOAD GAME ");
+	printf("\n\t\t\t\t\t\t\t(3)  HIGH SCORE");
+	printf("\n\t\t\t\t\t\t\t(99) QUIT GAME ");
+}
+
+void displayBanner()
+{
+    printf("\n\t\t ___________  ___  _______    ___________  ________  _______   ___________  ________  ________ ");
+	printf("\n\t\t/___   ____/ /  / /  ____/   /___   ____/ /  __   / /  ____/  /___   ____/ /  __   / /  _____/ ");
+	printf("\n\t\t   /  /     /  / /  /           /  /     /  /_/  / /  /          /  /     /  / /  / /  /___    ");
+	printf("\n\t\t  /  /     /  / /  /           /  /     /  __   / /  /          /  /     /  / /  / /  ____/    ");
+	printf("\n\t\t /  /     /  / /  /___        /  /     /  / /  / /  /___       /  /     /  /_/  / /  /____     ");
+	printf("\n\t\t/__/     /__/ /______/       /__/     /__/ /__/ /______/      /__/     /_______/ /_______/     \n");
+}
+
+void readMenu(int *menu)
+{
+    printf("Silahkan masukkan input: ");
+    scanf("%d", &(*menu));
+}
