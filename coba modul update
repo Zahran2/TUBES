@@ -34,8 +34,8 @@ int main()
 {
     int menu;
     menu = gameMenu();
-    
 
+    return 0;
 }
 
 int gameMenu()

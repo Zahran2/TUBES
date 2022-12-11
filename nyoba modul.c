@@ -22,7 +22,7 @@ typedef struct
 } Game;
 Game game;
 
-void gameMenu();
+int gameMenu();
 void readUkuran();
 void readRonde();
 void readNama();
@@ -42,10 +42,32 @@ void displayBanner();
 #define DASH "\n==========================================\n"
 int main()
 {
-    gameMenu();
+    int menu;
+    menu = gameMenu();
+    if (menu == 1)
+    {
+        newGame();
+        menu = 2;
+    }
+    else if (menu == 2)
+    {
+        runGame();
+    }
+    /*
+    else if (menu == 3)
+    {
+        highScore();
+    }
+    */
+    printf("%d", menu);
+    printf("%d %d", game.ukuran, game.ronde);
+    printf("%c %c", game.player1.simbol, game.player2.simbol);
+    printf("%s", game.player1.nama);
+    printf("%s", game.player2.nama);
+    return 0;
 }
 
-void gameMenu()
+int gameMenu()
 {
     int menu;
     menu = 1;
@@ -53,21 +75,41 @@ void gameMenu()
     {
         displayMenu();
         readMenu(&menu);
-        printf("%d, menu");
-        if (menu == 1)
-        {
-            newGame();
-        }
-        else if (menu == 2)
-        {
-            loadGame();
-        }
-        else if (menu == 3)
-        {
-            highScore();
-        }
-        //system("cls");
+        system("cls");
     } while ((menu < 1 || menu > 3) && menu != 99);
+    return menu;
+}
+
+void displayBanner()
+{
+    printf("\n\t\t ___________  ___  _______    ___________  ________  _______   ___________  ________  ________ ");
+	printf("\n\t\t/___   ____/ /  / /  ____/   /___   ____/ /  __   / /  ____/  /___   ____/ /  __   / /  _____/ ");
+	printf("\n\t\t   /  /     /  / /  /           /  /     /  /_/  / /  /          /  /     /  / /  / /  /___    ");
+	printf("\n\t\t  /  /     /  / /  /           /  /     /  __   / /  /          /  /     /  / /  / /  ____/    ");
+	printf("\n\t\t /  /     /  / /  /___        /  /     /  / /  / /  /___       /  /     /  /_/  / /  /____     ");
+	printf("\n\t\t/__/     /__/ /______/       /__/     /__/ /__/ /______/      /__/     /_______/ /_______/     \n");
+}
+
+void displayMenu()
+{
+    displayBanner();
+    printf("\n\t\t\t\t\t _   _   __     __    _   _   __  __       ");
+    printf("\n\t\t\t\t\t| |_| | |__| | |  |  | |_| | |_  |  | |  | ");
+    printf("\n\t\t\t\t\t|     | |  | | |  |  |     | |__ |  | |__| \n");
+    printf("\n\t\t\t\t\t\t\t(1)  NEW GAME  ");
+    printf("\n\t\t\t\t\t\t\t(2)  LOAD GAME ");
+    printf("\n\t\t\t\t\t\t\t(3)  HIGH SCORE");
+    printf("\n\t\t\t\t\t\t\t(99) QUIT GAME ");
+}
+
+void readMenu(int *menu)
+{
+    if ((*menu < 1 || *menu > 3) && *menu != 99)
+    {
+        printf("\nInputan salah!");
+    }
+    printf("\nSilahkan masukkan input: ");
+    scanf("%d", &(*menu));
 }
 
 void readUkuran()
@@ -148,76 +190,27 @@ void readSimbol()
     } while (toupper(game.player1.simbol) != 'X' && toupper(game.player1.simbol) != 'O');
 }
 
-void displayMenu()
-{
-    displayBanner();
-    printf("\n\t\t\t\t\t _   _   __     __    _   _   __  __       ");
-    printf("\n\t\t\t\t\t| |_| | |__| | |  |  | |_| | |_  |  | |  | ");
-    printf("\n\t\t\t\t\t|     | |  | | |  |  |     | |__ |  | |__| \n");
-    printf("\n\t\t\t\t\t\t\t(1)  NEW GAME  ");
-    printf("\n\t\t\t\t\t\t\t(2)  LOAD GAME ");
-    printf("\n\t\t\t\t\t\t\t(3)  HIGH SCORE");
-    printf("\n\t\t\t\t\t\t\t(99) QUIT GAME ");
-}
-
-void readMenu(int *menu)
-{
-    if ((*menu < 1 || *menu > 3) && *menu != 99)
-    {
-        printf("\nInputan salah!");
-    }
-    printf("\nSilahkan masukkan input: ");
-    scanf("%d", &(*menu));
-}
-
 void newGame()
 {
     readUkuran();
     readRonde();
     readNama();
     readSimbol();
-    runGame();
 }
 
-void runGame()
+/*void user_move(int p[9], int ply) // player moves
 {
-    char simbol;
-    displayBanner();
-    displayPapan();
-    scanf("%c", simbol);
-}
-
-void displayBanner()
-{
-    printf("\n\t\t ___________  ___  _______    ___________  ________  _______   ___________  ________  ________ ");
-	printf("\n\t\t/___   ____/ /  / /  ____/   /___   ____/ /  __   / /  ____/  /___   ____/ /  __   / /  _____/ ");
-	printf("\n\t\t   /  /     /  / /  /           /  /     /  /_/  / /  /          /  /     /  / /  / /  /___    ");
-	printf("\n\t\t  /  /     /  / /  /           /  /     /  __   / /  /          /  /     /  / /  / /  ____/    ");
-	printf("\n\t\t /  /     /  / /  /___        /  /     /  / /  / /  /___       /  /     /  /_/  / /  /____     ");
-	printf("\n\t\t/__/     /__/ /______/       /__/     /__/ /__/ /______/      /__/     /_______/ /_______/     \n");
-}
-
-void loadGame()
-{
-    
-}
-
-void highScore()
-{
-
-}
-
-void saveFile()
-{
-
-}
-
-void displayPapan()
-{
-    printf("%s\n", DASH); // print board layout with numbers.
-    for (int i = 1; i <= 9; i += 3)
+    int position;
+    while (1)
     {
-        printf("\t %d | %d | %d \n", i, (i + 1), (i + 2));
-    }  
-    printf("%s", DASH);
-}
+        printf("\n Player %c Move : ", sign(ply));
+        scanf("%d", &position);
+        if (position >= 1 && position <= 9 && p[position - 1] == 0)
+        {
+            (ply == -1) ? (p[position - 1] = -1) : (p[position - 1] = 1); // make moves based on the player.
+            break;
+        }
+        printf("\n Position is already occupied\n or a Wrong position number.\n");
+    }
+    (!game.logs) ? ERROR : fprintf(game.logs, "\nPlayer %c Moved to %d.", sign(ply), position);
+}*/
