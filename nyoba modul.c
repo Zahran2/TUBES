@@ -31,18 +31,21 @@ void readSimbol();
 void runGame();
 void displayGame();
 void displayPlayer();
-void displayPapan();
+void displayPapan1(int p[9]);
+void displayPapan2(int p[25]);
+void displayPapan3(int p[49]);
 void saveFile();
 void displayMenu();
 void readMenu(int *menu);
 void newGame();
-void loadGame();
 void highScore();
 void displayBanner();
 void displayGame(int ukuran, int ronde);
 void gotoxy(int x, int y);
+char sign(int x);
 
 #define DASH "\n==========================================\n"
+
 int main()
 {
     int menu;
@@ -50,14 +53,9 @@ int main()
     if (menu == 1)
     {
         newGame();
-        menu = 2;
-    }
-    if (menu == 2)
-    {
         runGame();
     }
-    /*
-    else if (menu == 3)
+    /*if (menu == 2)
     {
         highScore();
     }
@@ -79,7 +77,7 @@ int gameMenu()
         displayMenu();
         readMenu(&menu);
         system("cls");
-    } while ((menu < 1 || menu > 3) && menu != 99);
+    } while ((menu < 1 || menu > 2) && menu != 99);
     return menu;
 }
 
@@ -99,15 +97,14 @@ void displayMenu()
     printf("\n\t\t\t\t\t _   _   __     __    _   _   __  __       ");
     printf("\n\t\t\t\t\t| |_| | |__| | |  |  | |_| | |_  |  | |  | ");
     printf("\n\t\t\t\t\t|     | |  | | |  |  |     | |__ |  | |__| \n");
-    printf("\n\t\t\t\t\t\t\t(1)  NEW GAME  ");
-    printf("\n\t\t\t\t\t\t\t(2)  LOAD GAME ");
-    printf("\n\t\t\t\t\t\t\t(3)  HIGH SCORE");
+    printf("\n\t\t\t\t\t\t\t(1)  GAME  ");
+    printf("\n\t\t\t\t\t\t\t(2)  HIGH SCORE");
     printf("\n\t\t\t\t\t\t\t(99) QUIT GAME ");
 }
 
 void readMenu(int *menu)
 {
-    if ((*menu < 1 || *menu > 3) && *menu != 99)
+    if ((*menu < 1 || *menu > 2) && *menu != 99)
     {
         printf("\nInputan salah!");
     }
@@ -205,21 +202,8 @@ void runGame()
 {
     int ukuran;
     int ronde;
-    if (game.ukuran == 1)
-    {
-        int places[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-        ukuran = 3;
-    }
-    else if (game.ukuran == 2)
-    {
-        int places[25] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        ukuran = 5;
-    }
-    else if (game.ukuran == 3)
-    {
-        int places[49] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        ukuran = 7;
-    }
+    int i;
+
     if (game.ronde == 1)
     {
         ronde = 1;
@@ -228,7 +212,38 @@ void runGame()
     {
         ronde = 3;
     }
-    displayGame(ukuran, ronde);
+
+    for (i = 1; i <= ronde; i++)
+    {
+        if (game.ukuran == 1)
+        {
+            int places[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+            ukuran = 3;
+            system("cls");
+            displayGame(ukuran, ronde);
+            displayPapan1(places);
+            
+        }
+        else if (game.ukuran == 2)
+        {
+            int places[25] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+            ukuran = 5;
+            system("cls");
+            displayGame(ukuran, ronde);
+            displayPapan2(places);
+            
+        }
+        else if (game.ukuran == 3)
+        {
+            int places[49] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+            ukuran = 7;
+            system("cls");
+            displayGame(ukuran, ronde);
+            displayPapan3(places);
+            
+        }
+    }
+    
 }
 
 void displayGame(int ukuran, int ronde)
@@ -236,131 +251,141 @@ void displayGame(int ukuran, int ronde)
     displayBanner();
     if (ukuran == 3)
     {
-        printf("\n\t\t\t\t\t\t   PAPAN %dx%d - %d ROUND\n\n", ukuran, ukuran, ronde);
-        printf("\n\t\t\t\t\tSKOR : 0                           SKOR : 0\n");
-        printf("\n\t\t\t\t\t                 x | o | x                 ");
-        printf("\n\t\t\t\t\tPlayer 1        ---|---|---        Player 2");
-        printf("\n\t\t\t\t\t   %c             o | x | x            %c   ", game.player1.simbol, game.player2.simbol);
-        printf("\n\t\t\t\t\t                ---|---|---                ");
-        printf("\n\t\t\t\t\t                 x | o | o                 ");
+        gotoxy(53, 7);
+        printf("PAPAN %d x %d - %d ROUND", ukuran, ukuran, ronde);
+        gotoxy(40, 9);
+        printf("SKOR : 0                           SKOR : 0");
+        gotoxy(56, 10);
+        printf(" x | o | x ");
+        gotoxy(40, 11);
+        printf("Player 1        ---|---|---        Player 2");
+        gotoxy(40, 12);
+        printf("   x             o | x | x            o   ");
+        gotoxy(56, 13);
+        printf("---|---|---                ");
+        gotoxy(56, 14);
+        printf(" x | o | o                 ");
     }
     else if (ukuran == 5)
     {
-        printf("\n\t\t\t\t\t\t PAPAN %dx%d - %d ROUND\n\n", ukuran, ukuran, ronde);
-        printf("\n\t\t\t\t    SKOR : 0                             SKOR : 0\n");
-        printf("\n\t\t\t\t                  o | x | o | x | o              ");
-        printf("\n\t\t\t\t                 ---|---|---|---|---             ");
-        printf("\n\t\t\t\t                  x | o | x | o | x              ");
-        printf("\n\t\t\t\t    Player 1     ---|---|---|---|---     Player 2");
-        printf("\n\t\t\t\t       %c          o | x | o | o | x         %c   ", game.player1.simbol, game.player2.simbol);
-        printf("\n\t\t\t\t                 ---|---|---|---|---             ");
-        printf("\n\t\t\t\t                  o | x | o | x | x              ");
-        printf("\n\t\t\t\t                 ---|---|---|---|---             ");
-        printf("\n\t\t\t\t                  x | o | x | x | o              ");
+        gotoxy(49, 7);
+        printf("PAPAN %d x %d - %d ROUND", ukuran, ukuran, ronde);
+        gotoxy(35, 9);
+        printf("SKOR : 0                             SKOR : 0");
+        gotoxy(48, 10);
+        printf(" o | x | o | x | o ");
+        gotoxy(48, 11);
+        printf("---|---|---|---|---");
+        gotoxy(48, 12);
+        printf(" x | o | x | o | x ");
+        gotoxy(35, 13);
+        printf("Player 1     ---|---|---|---|---     Player 2");
+        gotoxy(38, 14);
+        printf("x          o | x | o | o | x         o   ");
+        gotoxy(48, 15);
+        printf("---|---|---|---|---");
+        gotoxy(48, 16);
+        printf(" o | x | o | x | x ");
+        gotoxy(48, 17);
+        printf("---|---|---|---|---");
+        gotoxy(48, 18);
+        printf(" x | o | x | x | o ");
     }
     else if (ukuran == 7)
     {
-        printf("\n\t\t\t\t\t\t  PAPAN %dx%d - %d ROUND\n\n", ukuran, ukuran, ronde);
-        printf("\n\t\t\t\tSKOR : 0                                       SKOR : 0 \n");
-        printf("\n\t\t\t\t               x | o | x | o | x | o | x                ");
-        printf("\n\t\t\t\t              ---|---|---|---|---|---|---               ");
-        printf("\n\t\t\t\t               o | o | o | x | o | x | o                ");
-        printf("\n\t\t\t\t              ---|---|---|---|---|---|---	            ");
-        printf("\n\t\t\t\t               x | o | x | o | o | x | x                ");
-        printf("\n\t\t\t\tPlayer 1      ---|---|---|---|---|---|---      Player 2 ");
-        printf("\n\t\t\t\t   %c           o | o | x | x | x | x | o          %c    ", game.player1.simbol, game.player2.simbol);
-        printf("\n\t\t\t\t              ---|---|---|---|---|---|---               ");
-        printf("\n\t\t\t\t               x | x | o | x | x | o | x                ");
-        printf("\n\t\t\t\t              ---|---|---|---|---|---|---               ");
-        printf("\n\t\t\t\t               x | x | o | x | o | x | o                ");
-        printf("\n\t\t\t\t              ---|---|---|---|---|---|---               ");
-        printf("\n\t\t\t\t               o | x | x | o | x | o | x                ");
+        gotoxy(50, 7);
+        printf("PAPAN %d x %d - %d ROUND", ukuran, ukuran, ronde);
+        gotoxy(33, 9);
+        printf("SKOR : 0                                     SKOR : 0");
+        gotoxy(46, 11);
+        printf(" x | o | x | o | x | o | x  ");
+        gotoxy(46, 12);
+        printf("---|---|---|---|---|---|---");
+        gotoxy(46, 13);
+        printf(" o | o | o | x | o | x | o ");
+        gotoxy(46, 14);
+        printf("---|---|---|---|---|---|---");
+        gotoxy(46, 15);
+        printf(" x | o | x | o | o | x | x ");
+        gotoxy(33, 16);
+        printf("Player 1     ---|---|---|---|---|---|---     Player 2 ");
+        gotoxy(36, 17);
+        printf("x          o | o | x | x | x | x | o         o    ");
+        gotoxy(46, 18);
+        printf("---|---|---|---|---|---|---");
+        gotoxy(46, 19);
+        printf(" x | x | o | x | x | o | x ");
+        gotoxy(46, 20);
+        printf("---|---|---|---|---|---|---");
+        gotoxy(46, 21);
+        printf(" x | x | o | x | o | x | o ");
+        gotoxy(46, 22);
+        printf("---|---|---|---|---|---|---");
+        gotoxy(46, 23);
+        printf(" o | x | x | o | x | o | x ");
     }
-    displayPapan();
 }
 
-void displayPapan()
+void displayPapan1(int p[9])
 {
-    if (game.ukuran == 1)
+    int i, j;
+    j = 0;
+    for (i = 0; i < 9; i += 3)
     {
-        printf("%s\n", DASH); // print board layout with numbers.
-        for (int i = 1; i <= 9; i += 3)
-        {
-            printf("\t %d | %d | %d \n", i, (i + 1), (i + 2));
-            if (i < 9)
-            {
-                printf("\t---|---|--- \n");
-            }
-        }
-        printf("%s", DASH);
+        gotoxy(56, 10 + j);
+        printf(" %c | %c | %c ", sign(p[i]), sign(p[i + 1]), sign(p[i + 2]));
+        j += 2;
     }
-    else if (game.ukuran == 2)
+    printf("\n");
+}
+
+void displayPapan2(int p[25])
+{
+    int i, j;
+    j = 0;
+    for (i = 0; i < 25; i += 5)
     {
-        printf("%s\n", DASH); // print board layout with numbers.
-        for (int i = 1; i <= 25; i += 5)
-        {
-
-            if (i < 10)
-            {
-                printf("\t  %d  |  %d  |  %d  |  %d  |  %d  \n", i, (i + 1), (i + 2), (i + 3), (i + 4));
-            }
-            else if (i > 10)
-            {
-                printf("\t  %d |  %d |  %d |  %d |  %d \n", i, (i + 1), (i + 2), (i + 3), (i + 4));
-            }
-            if (i < 25)
-            {
-                printf("\t-----|-----|-----|-----|----- \n");
-            }
-        }
-        printf("%s", DASH);
+        gotoxy(48, 10 + j);
+        printf(" %c | %c | %c | %c | %c ", sign(p[i]), sign(p[i + 1]), sign(p[i + 2]), sign(p[i + 3]), sign(p[i + 4]));
+        j += 2;
     }
-    else if (game.ukuran == 3)
+    printf("\n");
+}
+
+void displayPapan3(int p[49])
+{
+    int i, j;
+    j = 0;
+    for (i = 0; i < 49; i += 7)
     {
-        printf("%s\n", DASH); // print board layout with numbers.
-        for (int i = 1; i <= 49; i += 7)
-        {
-            if (i < 8)
-            {
-                printf("\t  %d  |  %d  |  %d  |  %d  |  %d  |  %d  |  %d  \n", i, (i + 1), (i + 2), (i + 3), (i + 4), (i + 5), (i + 6));
-            }
-            else if (i == 8)
-            {
-                printf("\t  %d  |  %d  |  %d |  %d |  %d |  %d |  %d \n", i, (i + 1), (i + 2), (i + 3), (i + 4), (i + 5), (i + 6));
-            }
-
-            else if (i > 8)
-            {
-                printf("\t  %d |  %d |  %d |  %d |  %d |  %d |  %d \n", i, (i + 1), (i + 2), (i + 3), (i + 4), (i + 5), (i + 6));
-            }
-
-            if (i < 49)
-            {
-                printf("\t-----|-----|-----|-----|-----|-----|----- \n");
-            }
-        }
-        printf("%s", DASH);
+        gotoxy(46, 11 + j);
+        printf(" %c | %c | %c | %c | %c | %c | %c ", sign(p[i]), sign(p[i + 1]), sign(p[i + 2]), sign(p[i + 3]), sign(p[i + 4]), sign(p[i + 5]), sign(p[i + 6]));
+        j += 2;
     }
+    printf("\n");
+}
+
+char sign(int x) //  return ' ', 'X', 'O' for 0, -1 , 1.
+{
+    char tanda;
+    if (x == 0)
+    {
+        tanda = ' ';
+    }
+    else if (x == -1)
+    {
+        tanda = 'x';
+    }
+    else if (x == 1)
+    {
+        tanda = 'o';
+    }
+
+    return tanda;
 }
 
 void gotoxy(int x, int y)
 {
-	COORD pos = {x, y}; // sets co-ordinates in(x,y)
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+    COORD pos = {x, y}; // sets co-ordinates in(x,y)
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
-/*void user_move(int p[9], int ply) // player moves
-{
-    int position;
-    while (1)
-    {
-        printf("\n Player %c Move : ", sign(ply));
-        scanf("%d", &position);
-        if (position >= 1 && position <= 9 && p[position - 1] == 0)
-        {
-            (ply == -1) ? (p[position - 1] = -1) : (p[position - 1] = 1); // make moves based on the player.
-            break;
-        }
-        printf("\n Position is already occupied\n or a Wrong position number.\n");
-    }
-    (!game.logs) ? ERROR : fprintf(game.logs, "\nPlayer %c Moved to %d.", sign(ply), position);
-}*/

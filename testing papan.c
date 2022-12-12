@@ -24,7 +24,7 @@ int win(int p[9]);
 void runGame();
 
 char player1, player2;
-int giliran1, giliran2;
+int giliran;
 
 int main()
 {
@@ -37,20 +37,21 @@ void runGame()
 {
     int places[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     int i;
-    if (player1 == 'x')
+    /*if (player1 == 'x')
     {
         player2 = 'o';
-        giliran1 = 0;
-        giliran2 = 1;
+        giliran = 0;
+        giliranPlayer2 = 1;
     }
     else
     {
         player2 = 'x';
-        giliran1 = 1;
-        giliran2 = 0;
-    }
+        giliran = 1;
+        giliranPlayer2 = 0;
+    }*/
+    giliran = 0;
     board(places);
-    for (i = giliran1; i < (9 + giliran1) && win(places) == 0; i++)
+    for (i = giliran; i < (9 + giliran) && win(places) == 0; i++)
     {
         if (i % 2 == 0)
         {
@@ -58,8 +59,7 @@ void runGame()
         }
         else
         {
-            user_mov
-            (places, 1);
+            user_move(places, 1);
         }
         board(places);
     }
@@ -92,7 +92,7 @@ char sign(int x) //  return ' ', 'X', 'O' for 0, -1 , 1.
     {
         tanda = 'x';
     }
-    else
+    else if (x == 1)
     {
         tanda = 'o';
     }
