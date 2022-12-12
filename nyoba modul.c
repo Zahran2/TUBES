@@ -203,19 +203,21 @@ void newGame()
 
 void runGame()
 {
-    int places[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     int ukuran;
     int ronde;
     if (game.ukuran == 1)
     {
+        int places[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
         ukuran = 3;
     }
     else if (game.ukuran == 2)
     {
+        int places[25] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         ukuran = 5;
     }
     else if (game.ukuran == 3)
     {
+        int places[49] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         ukuran = 7;
     }
     if (game.ronde == 1)
