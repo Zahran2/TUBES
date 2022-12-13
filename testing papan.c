@@ -30,6 +30,10 @@ int main()
 {
     printf("Silahkan masukkan giliran (x/o): ");
     scanf("%c", &player1);
+    if (player1 == 'x')
+    {
+        player2 = 'o';
+    }
     runGame();
 }
 
@@ -63,6 +67,7 @@ void runGame()
         }
         board(places);
     }
+    result(win(places));
 }
 
 int win(int p[9]) //  return current game state.
@@ -141,6 +146,26 @@ void user_move(int p[9], int ply) // player moves
         }
         printf("\n Position is already occupied\n or a Wrong position number.\n");
     }*/
+}
+
+void result(int r) //  write game results.
+
+{
+    if (r != 0)
+    {
+        if (r == -1)
+        {
+            printf("%c IS THE WINNER!", player1);
+        }
+        else
+        {
+            printf("%c IS THE WINNER!", player2);
+        }
+    }
+    else
+    {
+        printf("DRAW!");
+    }
 }
 
 /*
