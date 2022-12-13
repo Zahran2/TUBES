@@ -16,11 +16,13 @@ typedef struct
 typedef struct
 {
     int ukuran;
+    int timer;
     Player player1;
     Player player2;
 } Game;
 Game game;
 
+void *timer();
 int gameMenu();
 void readUkuran();
 void readNama();
@@ -48,6 +50,11 @@ void userMove2(int p[25], int ply);
 void userMove3(int p[49], int ply);
 void result(int r);
 void displayPetunjuk(int ukuran);
+
+int stopThread;
+int waktuHabis;
+
+pthread_t t;
 
 #define DASH "=========================================="
 
@@ -187,7 +194,6 @@ void newGame()
 void runGame()
 {
     int ukuran;
-    int i;
     if (game.ukuran == 1)
     {
         int places[9] = {   0, 0, 0, 
@@ -459,18 +465,62 @@ int win3(int p[49])
     return 0;
 }
 
+void *timer()
+{
+	while (game.timer >= 0 && stopThread == 0)
+	{
+		sleep(1);
+		if (game.ukuran == 1)
+		{
+			gotoxy(30, 18);
+			printf("   Silahkan masukkan input[%d]: ", game.timer);
+		}
+		else if (game.ukuran == 2)
+		{
+			gotoxy(30, 22);
+			printf("   Silahkan masukkan input[%d]: ", game.timer);
+		}
+		else if (game.ukuran == 3)
+		{
+			gotoxy(30, 27);
+			printf("   Silahkan masukkan input[%d]: ", game.timer);
+		}
+		game.timer--;
+	}
+	if (stopThread == 1)
+	{
+		return NULL;
+	}
+	else
+	{
+		waktuHabis = 1;
+		printf("\n\n\t\t\t\tWaktu habis! Ketik 0 untuk berganti giliran! ");
+		return NULL;
+	}
+	
+}
+
 void userMove1(int p[9], int ply)
 {
     int position;
     int salah;
+	game.timer = 10;
+
     do
     {
+		stopThread = 0;
         gotoxy(55, 16);
         printf("Player %c Move", sign(ply));
-        gotoxy(60, 18);
-        printf("| |");
-        gotoxy(61, 18);
+		pthread_create(&t, NULL, &timer, NULL);
         scanf("%d", &position);
+		stopThread = 1;
+		pthread_join(t,NULL);
+
+		if (waktuHabis == 1)
+		{
+			position = (rand() % 10);
+		}
+
         if (position >= 1 && position <= 9 && p[position - 1] == 0)
         {
 
@@ -499,14 +549,22 @@ void userMove2(int p[25], int ply)
 {
     int position;
     int salah;
+	game.timer = 10;
     do
     {
+		stopThread = 0;
         gotoxy(51, 20);
         printf("Player %c Move", sign(ply));
-        gotoxy(56, 22);
-        printf("|  |");
-        gotoxy(57, 22);
+		pthread_create(&t, NULL, &timer, NULL);
         scanf("%d", &position);
+		stopThread = 1;
+		pthread_join(t, NULL);
+
+		if (waktuHabis == 1)
+		{
+			position = (rand() % 26);
+		}
+
         if (position >= 1 && position <= 25 && p[position - 1] == 0)
         {
 
@@ -529,18 +587,26 @@ void userMove2(int p[25], int ply)
     } while (salah == 1);
 }
 
-void userMove3(int p[25], int ply)
+void userMove3(int p[49], int ply)
 {
     int position;
     int salah;
+	game.timer = 10;
     do
     {
+		stopThread = 0;
         gotoxy(53, 25);
         printf("Player %c Move", sign(ply));
-        gotoxy(58, 27);
-        printf("|  |");
-        gotoxy(59, 27);
+		pthread_create(&t, NULL, &timer, NULL);
         scanf("%d", &position);
+		stopThread = 1;
+		pthread_join(t, NULL);
+
+		if (waktuHabis == 1)
+		{
+			position = (rand() % 50);
+		}
+
         if (position >= 1 && position <= 49 && p[position - 1] == 0)
         {
             if (ply == -1)
@@ -649,3 +715,22 @@ void displayPetunjuk(int ukuran)
         printf("\t\t\t\t      %s\n", DASH);
     }
 }
+
+/*int main(int argc, char *argv[])
+{
+	pthread_t t1;
+	int test;
+	
+	pthread_create(&t1, NULL, &routine, NULL);
+	printf("Silahkan masukkan input: ");
+	scanf("%d", &test);
+	printf("%d", test);
+	pthread_join(t1, NULL);
+	
+	gotoxy(1, 1);
+	printf("masuk");
+	gotoxy(1, 1);
+	printf("keluar");
+	return 0;
+}
+*/
