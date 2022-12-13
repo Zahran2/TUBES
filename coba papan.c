@@ -131,26 +131,6 @@ void user_move(int p[25], int ply) // player moves
         {
             printf("\n Position is already occupied\n or a Wrong position number.\n");
         }
-    /*while (1)
-    {
-        printf("\n Player %c Move : ", sign(ply));
-        scanf("%d", &position);
-        if (position >= 1 && position <= 9 && p[position - 1] == 0)
-        {
-            
-            if (ply == -1)
-            {
-                p[position-1] = -1;
-            }
-            else
-            {
-                p[position - 1] = 1;
-            }
-            //(ply == -1) ? (p[position - 1] = -1) : (p[position - 1] = 1); // make moves based on the player.
-            break;
-        }
-        printf("\n Position is already occupied\n or a Wrong position number.\n");
-    }*/
 }
 
 void gotoxy(int x, int y)
@@ -158,59 +138,3 @@ void gotoxy(int x, int y)
     COORD pos = {x, y}; // sets co-ordinates in(x,y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
-
-/*
-int main()
-{
-    int places[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-    int s = game.start - 1;
-
-    for (int i = s; i < (9 + s) && win(places) == 0; i++)
-    {
-        if (i % 2 == 0)
-            user_move(places, -1);
-        else if (game.mode != 3)
-            auto_move(places, ((game.mode == 1) ? 1 : 2), i);
-        else
-            user_move(places, 1);
-        board(places);
-    }
-}
-
-void board(int p[9]) //  print tic tac toe board.
-{
-    for (int i = 0; i < 9; i += 3)
-        printf("\n\t %c | %c | %c ", sign(p[i]), sign(p[i + 1]), sign(p[i + 2]));
-    printf("\n");
-}
-
-char sign(int x) //  return ' ', 'X', 'O' for 0, -1 , 1.
-{
-    return (x == 0) ? ' ' : ((x == -1) ? game.player_1 : game.player_2);
-}
-
-void user_move(int p[9], int ply) // player moves
-{
-    int position;
-    while (1)
-    {
-        printf("\n Player %c Move : ", sign(ply));
-        scanf("%d", &position);
-        if (position >= 1 && position <= 9 && p[position - 1] == 0)
-        {
-            (ply == -1) ? (p[position - 1] = -1) : (p[position - 1] = 1); // make moves based on the player.
-            break;
-        }
-        printf("\n Position is already occupied\n or a Wrong position number.\n");
-    }
-    (!game.logs) ? ERROR : fprintf(game.logs, "\nPlayer %c Moved to %d.", sign(ply), position);
-}
-
-int win(int p[9]) //  return current game state.
-{
-    int chance[8][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}}; // winning patterns
-    for (int i = 0; i < 8; i++)
-        if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]])
-            return p[chance[i][0]];
-    return 0;
-}*/

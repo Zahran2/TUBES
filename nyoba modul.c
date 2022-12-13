@@ -7,7 +7,7 @@
 
 typedef struct
 {
-    char nama[100];
+    char nama[10];
     char simbol;
     int score;
     int highscore;
@@ -26,7 +26,6 @@ Game game;
 
 int gameMenu();
 void readUkuran();
-void readRonde();
 void readNama();
 void readSimbol();
 void runGame();
@@ -41,20 +40,16 @@ void readMenu(int *menu);
 void newGame();
 void highScore();
 void displayBanner();
-void displayGame(int ukuran, int ronde);
+void displayGame(int ukuran);
 void gotoxy(int x, int y);
 char sign(int x);
-void gamePlay1(int places);
-void gamePlay2(int places);
-void gamePlay3(int places);
 int win1(int p[9]);
-int win2(int p);
-int win3(int p);
+int win2(int p[25]);
+int win3(int p[49]);
 void userMove1(int p[9], int ply);
 void userMove2(int p[25], int ply);
 void userMove3(int p[49], int ply);
 void result(int r);
-
 
 #define DASH "\n==========================================\n"
 
@@ -95,12 +90,18 @@ int gameMenu()
 
 void displayBanner()
 {
-    printf("\n\t\t ___________  ___  _______    ___________  ________  _______   ___________  ________  ________ ");
-    printf("\n\t\t/___   ____/ /  / /  ____/   /___   ____/ /  __   / /  ____/  /___   ____/ /  __   / /  _____/ ");
-    printf("\n\t\t   /  /     /  / /  /           /  /     /  /_/  / /  /          /  /     /  / /  / /  /___    ");
-    printf("\n\t\t  /  /     /  / /  /           /  /     /  __   / /  /          /  /     /  / /  / /  ____/    ");
-    printf("\n\t\t /  /     /  / /  /___        /  /     /  / /  / /  /___       /  /     /  /_/  / /  /____     ");
-    printf("\n\t\t/__/     /__/ /______/       /__/     /__/ /__/ /______/      /__/     /_______/ /_______/     \n");
+    gotoxy(17, 1);
+    printf("___________  ___  _______    ___________  ________  _______   ___________  ________  ________ ");
+    gotoxy(16, 2);
+    printf("/___   ____/ /  / /  ____/   /___   ____/ /  __   / /  ____/  /___   ____/ /  __   / /  _____/ ");
+    gotoxy(19, 3);
+    printf("/  /     /  / /  /           /  /     /  /_/  / /  /          /  /     /  / /  / /  /___    ");
+    gotoxy(18, 4);
+    printf("/  /     /  / /  /           /  /     /  __   / /  /          /  /     /  / /  / /  ____/    ");
+    gotoxy(17, 5);
+    printf("/  /     /  / /  /___        /  /     /  / /  / /  /___       /  /     /  /_/  / /  /____     ");
+    gotoxy(16, 6);
+    printf("/__/     /__/ /______/       /__/     /__/ /__/ /______/      /__/     /_______/ /_______/     ");
 }
 
 void displayMenu()
@@ -131,7 +132,7 @@ void readUkuran()
     do
     {
         displayBanner();
-        printf("Menu Ukuran Papan");
+        printf("\nMenu Ukuran Papan");
         printf("\n(1) 3 x 3");
         printf("\n(2) 5 x 5");
         printf("\n(3) 7 x 7");
@@ -145,29 +146,10 @@ void readUkuran()
     } while (game.ukuran < 1 || game.ukuran > 3);
 }
 
-void readRonde()
-{
-    game.ronde = 1;
-    do
-    {
-        displayBanner();
-        printf("Menu Ronde");
-        printf("\n(1) Best of 1");
-        printf("\n(2) Best of 3");
-        if (game.ronde < 1 || game.ronde > 2)
-        {
-            printf("\nInputan salah!");
-        }
-        printf("\nSilahkan masukkan pilihan ronde: ");
-        scanf("%i", &game.ronde);
-        system("cls");
-    } while (game.ronde < 1 || game.ronde > 2);
-}
-
 void readNama()
 {
     displayBanner();
-    printf("Player 1");
+    printf("\nPlayer 1");
     printf("\nSilahkan masukkan nama anda: ");
     scanf(" %[^\n]%*c", game.player1.nama);
     printf("Player 2");
@@ -182,7 +164,7 @@ void readSimbol()
     do
     {
         displayBanner();
-        printf("Player 1");
+        printf("\nPlayer 1");
         if (game.player1.simbol == 'x')
         {
             game.player2.simbol = 'o';
@@ -205,7 +187,6 @@ void readSimbol()
 void newGame()
 {
     readUkuran();
-    readRonde();
     readNama();
     readSimbol();
 }
@@ -213,105 +194,103 @@ void newGame()
 void runGame()
 {
     int ukuran;
-    int ronde;
     int i;
-
-    if (game.ronde == 1)
+    if (game.ukuran == 1)
     {
-        ronde = 1;
-    }
-    else if (game.ronde == 2)
-    {
-        ronde = 3;
-    }
-
-    for (i = 1; i <= ronde; i++)
-    {
-        if (game.ukuran == 1)
+        int places[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        ukuran = 3;
+        game.player1.score = 0;
+        game.player2.score = 0;
+        int i;
+        for (i = 0; i < 9 && win1(places) == 0; i++)
         {
-            int places[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-            ukuran = 3;
-            game.player1.score = 0;
-            game.player2.score = 0;
-            // gamePlay1(places);
-            int i, giliran;
-            giliran = 0;
-            for (i = giliran; i < (9 + giliran) && win1(places) == 0; i++)
+            // system("cls");
+            displayGame(ukuran);
+            displayPapan1(places);
+            if (i % 2 == 0)
             {
-                //system("cls");
-                displayGame(ukuran, ronde);
-                displayPapan1(places);
-                if (i % 2 == 0)
-                {
-                    userMove1(places, -1);
-                }
-                else
-                {
-                    userMove1(places, 1);
-                }
-                displayPapan1(places);
-            }
-            if (win1(places) == -1)
-            {
-                game.player1.score = game.player1.score++;
+                userMove1(places, -1);
             }
             else
             {
-                game.player2.score = game.player2.score++;
+                userMove1(places, 1);
             }
-            if (game.player1.score + game.player2.score == ronde)
-            {
-                result(win1(places));
-            }
-            //result(win1(places));
+            displayPapan1(places);
         }
-        else if (game.ukuran == 2)
+        displayGame(ukuran);
+        displayPapan1(places);
+        result(win1(places));
+    }
+    else if (game.ukuran == 2)
+    {
+        int places[25] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        ukuran = 5;
+        game.player1.score = 0;
+        game.player2.score = 0;
+        int i;
+        for (i = 0; i < 25 && win2(places) == 0; i++)
         {
-            int places[25] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-            ukuran = 5;
-            system("cls");
-            displayGame(ukuran, ronde);
+            // system("cls");
+            displayGame(ukuran);
             displayPapan2(places);
-            // gamePlay2(places);
+            if (i % 2 == 0)
+            {
+                userMove2(places, -1);
+            }
+            else
+            {
+                userMove2(places, 1);
+            }
+            displayPapan2(places);
         }
-        else if (game.ukuran == 3)
+        displayGame(ukuran);
+        displayPapan2(places);
+        result(win2(places));
+    }
+    else if (game.ukuran == 3)
+    {
+        int places[49] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        ukuran = 7;
+        game.player1.score = 0;
+        game.player2.score = 0;
+        int i;
+        for (i = 0; i < 49 && win2(places) == 0; i++)
         {
-            int places[49] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-            ukuran = 7;
-            system("cls");
-            displayGame(ukuran, ronde);
+            // system("cls");
+            displayGame(ukuran);
             displayPapan3(places);
-            // gamePlay3(places);
+            if (i % 2 == 0)
+            {
+                userMove2(places, -1);
+            }
+            else
+            {
+                userMove2(places, 1);
+            }
+            displayPapan2(places);
         }
+        displayGame(ukuran);
+        displayPapan3(places);
+        result(win2(places));
     }
 }
 
-void displayGame(int ukuran, int ronde)
+void displayGame(int ukuran)
 {
     displayBanner();
     if (ukuran == 3)
     {
-        gotoxy(53, 7);
-        printf("PAPAN %d x %d - %d ROUND", ukuran, ukuran, ronde);
-        gotoxy(40, 9);
-        printf("SKOR : 0                           SKOR : 0");
-        gotoxy(56, 10);
-        printf(" x | o | x ");
+        gotoxy(56, 7);
+        printf("PAPAN %d x %d", ukuran, ukuran);
         gotoxy(40, 11);
-        printf("Player 1        ---|---|---        Player 2");
+        printf("Player 1                           Player 2");
         gotoxy(40, 12);
-        printf("   x             o | x | x            o   ");
-        gotoxy(56, 13);
-        printf("---|---|---                ");
-        gotoxy(56, 14);
-        printf(" x | o | o                 ");
+        printf("   x                                  o   ");
     }
     else if (ukuran == 5)
     {
         gotoxy(49, 7);
-        printf("PAPAN %d x %d - %d ROUND", ukuran, ukuran, ronde);
-        gotoxy(35, 9);
-        printf("SKOR : 0                             SKOR : 0");
+        printf("PAPAN %d x %d", ukuran, ukuran);
         gotoxy(48, 10);
         printf(" o | x | o | x | o ");
         gotoxy(48, 11);
@@ -334,9 +313,7 @@ void displayGame(int ukuran, int ronde)
     else if (ukuran == 7)
     {
         gotoxy(50, 7);
-        printf("PAPAN %d x %d - %d ROUND", ukuran, ukuran, ronde);
-        gotoxy(33, 9);
-        printf("SKOR : 0                                     SKOR : 0");
+        printf("PAPAN %d x %d", ukuran, ukuran);
         gotoxy(46, 11);
         printf(" x | o | x | o | x | o | x  ");
         gotoxy(46, 12);
@@ -449,29 +426,20 @@ void gotoxy(int x, int y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-/*void gamePlay1(int places)
-{
-    int i, giliran;
-    giliran = 0;
-    for (i = giliran; i < (9 + giliran) && win1(places) == 0; i++)
-    {
-        if (i % 2 == 0)
-        {
-            userMove1(places, -1);
-        }
-        else
-        {
-            userMove1(places, 1);
-        }
-        displayPapan1(places);
-    }
-}*/
-
 int win1(int p[9])
 {
     int chance[8][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}}; // winning patterns
     for (int i = 0; i < 8; i++)
         if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]])
+            return p[chance[i][0]];
+    return 0;
+}
+
+int win2(int p[25]) //  return current game state.
+{
+    int chance[28][4] = {{0, 1, 2, 3}, {1, 2, 3, 4}, {5, 6, 7, 8}, {6, 7, 8, 9}, {10, 11, 12, 13}, {11, 12, 13, 14}, {15, 16, 17, 18}, {16, 17, 18, 19}, {20, 21, 22, 23}, {21, 22, 23, 24}, {0, 5, 10, 15}, {5, 10, 15, 20}, {1, 6, 11, 16}, {6, 11, 16, 21}, {2, 7, 12, 17}, {7, 12, 17, 22}, {3, 8, 13, 18}, {8, 13, 18, 23}, {4, 9, 14, 19}, {9, 14, 19, 24}, {0, 6, 12, 18}, {6, 12, 18, 24}, {4, 8, 12, 16}, {8, 12, 16, 20}, {1, 7, 13, 19}, {5, 11, 17, 23}, {3, 7, 11, 15}, {9, 13, 17, 21}}; // winning patterns
+    for (int i = 0; i < 28; i++)
+        if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]] && p[chance[i][0]] == p[chance[i][3]])
             return p[chance[i][0]];
     return 0;
 }
@@ -498,7 +466,59 @@ void userMove1(int p[9], int ply)
     }
     else
     {
-        printf("\n Position is already occupied\n or a Wrong position number.\n");
+        printf("\n POSISI SUDAH DIISI ATAU SALAH INPUT POSISI\n");
+    }
+}
+
+void userMove2(int p[25], int ply) // player moves
+{
+    int position;
+    gotoxy(46, 20);
+    printf("Player %c Move :  ", sign(ply));
+    gotoxy(62, 20);
+    scanf("%d", &position);
+    if (position >= 1 && position <= 25 && p[position - 1] == 0)
+    {
+
+        if (ply == -1)
+        {
+            p[position - 1] = -1;
+        }
+        else
+        {
+            p[position - 1] = 1;
+        }
+        system("cls");
+    }
+    else
+    {
+        printf("\n POSISI SUDAH DIISI ATAU SALAH INPUT POSISI\n");
+    }
+}
+
+void userMove3(int p[25], int ply)
+{
+    int position;
+    gotoxy(46, 20);
+    printf("Player %c Move :  ", sign(ply));
+    gotoxy(62, 20);
+    scanf("%d", &position);
+    if (position >= 1 && position <= 49 && p[position - 1] == 0)
+    {
+
+        if (ply == -1)
+        {
+            p[position - 1] = -1;
+        }
+        else
+        {
+            p[position - 1] = 1;
+        }
+        system("cls");
+    }
+    else
+    {
+        printf("\n POSISI SUDAH DIISI ATAU SALAH INPUT POSISI\n");
     }
 }
 
