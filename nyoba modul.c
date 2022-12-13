@@ -49,7 +49,7 @@ void userMove3(int p[49], int ply);
 void result(int r);
 void displayPetunjuk(int ukuran);
 
-#define DASH "\n==========================================\n"
+#define DASH "=========================================="
 
 int main()
 {
@@ -197,7 +197,6 @@ void runGame()
         int i;
         for (i = 0; i < 9 && win1(places) == 0; i++)
         {
-            // system("cls");
             displayGame(ukuran);
             displayPapan1(places);
             displayPetunjuk(ukuran);
@@ -229,6 +228,7 @@ void runGame()
             // system("cls");
             displayGame(ukuran);
             displayPapan2(places);
+            displayPetunjuk(ukuran);
             if (i % 2 == 0)
             {
                 userMove2(places, -1);
@@ -259,6 +259,7 @@ void runGame()
             // system("cls");
             displayGame(ukuran);
             displayPapan3(places);
+            displayPetunjuk(ukuran);
             if (i % 2 == 0)
             {
                 userMove3(places, -1);
@@ -599,29 +600,52 @@ void displayPetunjuk(int ukuran)
 {
     if (ukuran == 3)
     {
-        printf("%s\n", DASH);
+        printf("\n\n\n\n\n\n\n\t\t\t\t\t%s\n", DASH);
         for (int i = 1; i <= 9; i += 3)
         {
-            printf("\t %d | %d | %d \n", i, (i + 1), (i + 2));
+            printf("\t\t\t\t\t\t\t %d | %d | %d \n", i, (i + 1), (i + 2));
         }
-        printf("%s", DASH);
+        printf("\t\t\t\t\t%s\n", DASH);
     }
     else if (ukuran == 5)
     {
-        printf("%s\n", DASH);
-        for (int i = 1; i <= 9; i += 3)
+        printf("\n\n\n\n\n\n\n\t\t\t\t      %s\n", DASH);
+        for (int i = 1; i <= 25; i += 5)
         {
-            printf("\t %d | %d | %d \n", i, (i + 1), (i + 2));
+            if ( i < 10)
+            {
+                printf("\t\t\t\t\t\t%d  | %d  | %d  | %d  | %d\n", i, (i + 1), (i + 2), (i + 3), (i + 4));
+            }
+            else
+            {
+                printf("\t\t\t\t\t\t%d | %d | %d | %d | %d\n", i, (i + 1), (i + 2), (i + 3), (i + 4));
+            }
+            
         }
-        printf("%s", DASH);
+        printf("\t\t\t\t      %s\n", DASH);
     }
     else if (ukuran == 7)
     {
-        printf("%s\n", DASH);
-        for (int i = 1; i <= 9; i += 3)
+        printf("\n\n\n\n\n\n\n\t\t\t\t      %s\n", DASH);
+        for (int i = 1; i <= 49; i += 7)
         {
-            printf("\t %d | %d | %d \n", i, (i + 1), (i + 2));
+            if (i < 15)
+            {
+                if (i < 8)
+                {
+                    printf("\t\t\t\t\t   %d  | %d  | %d  | %d  | %d  | %d  | %d\n", i, (i + 1), (i + 2), (i + 3), (i + 4), (i + 5), (i + 6));
+                }
+                else
+                {
+                    printf("\t\t\t\t\t   %d  | %d  | %d | %d | %d | %d | %d\n", i, (i + 1), (i + 2), (i + 3), (i + 4), (i + 5), (i + 6));
+                }
+            }   
+            else
+            {
+                printf("\t\t\t\t\t   %d | %d | %d | %d | %d | %d | %d\n", i, (i + 1), (i + 2), (i + 3), (i + 4), (i + 5), (i + 6));
+            }
+            
         }
-        printf("%s", DASH);
+        printf("\t\t\t\t      %s\n", DASH);
     }
 }
