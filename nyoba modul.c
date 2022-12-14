@@ -35,7 +35,6 @@ void readNama();
 void readSimbol();
 void runGame();
 void displayGame();
-void displayPlayer();
 void displayPapan1(int p[9]);
 void displayPapan2(int p[25]);
 void displayPapan3(int p[49]);
