@@ -10,8 +10,14 @@ typedef struct
 {
     char nama[11];
     char simbol;
-    int highscore;
+    int score;
 } Player;
+
+typedef struct
+{
+    char nama[11];
+    int highscore;
+}
 
 typedef struct
 {
@@ -508,6 +514,7 @@ void userMove1(int p[9], int ply)
 
     do
     {
+        waktuHabis = 0;
 		stopThread = 0;
         gotoxy(55, 16);
         printf("Player %c Move", sign(ply));
@@ -552,6 +559,7 @@ void userMove2(int p[25], int ply)
 	game.timer = 10;
     do
     {
+        waktuHabis = 0;
 		stopThread = 0;
         gotoxy(51, 20);
         printf("Player %c Move", sign(ply));
@@ -594,6 +602,7 @@ void userMove3(int p[49], int ply)
 	game.timer = 10;
     do
     {
+        waktuHabis = 0;
 		stopThread = 0;
         gotoxy(53, 25);
         printf("Player %c Move", sign(ply));
