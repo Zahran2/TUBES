@@ -17,7 +17,7 @@ typedef struct
 {
     char nama[11];
     int highscore;
-}
+} Highscore;
 
 typedef struct
 {
@@ -500,6 +500,7 @@ void *timer()
 	else
 	{
 		waktuHabis = 1;
+        system("cls");
 		printf("\n\n\t\t\t\tWaktu habis! Ketik 0 untuk berganti giliran! ");
 		return NULL;
 	}
@@ -525,7 +526,7 @@ void userMove1(int p[9], int ply)
 
 		if (waktuHabis == 1)
 		{
-			position = (rand() % 10);
+			break;
 		}
 
         if (position >= 1 && position <= 9 && p[position - 1] == 0)
@@ -570,7 +571,7 @@ void userMove2(int p[25], int ply)
 
 		if (waktuHabis == 1)
 		{
-			position = (rand() % 26);
+			break;
 		}
 
         if (position >= 1 && position <= 25 && p[position - 1] == 0)
@@ -613,7 +614,7 @@ void userMove3(int p[49], int ply)
 
 		if (waktuHabis == 1)
 		{
-			position = (rand() % 50);
+			break;
 		}
 
         if (position >= 1 && position <= 49 && p[position - 1] == 0)
