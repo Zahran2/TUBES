@@ -87,9 +87,9 @@ void userMove2(int p[25], int ply); //  prosedur untuk menampung pergerakan pema
 void userMove3(int p[49], int ply); //  prosedur untuk menampung pergerakan pemain dari keyboard papan 7 x 7
                                     //  I.S = pergerakan pemain belum ditampung dari keyboard papan 7 x 7
                                     //  F.S = pergerakan pemain sudah ditampung dari keyboard papan 7 x 7
-void result(int r);                 //  prosedur untuk menampilkan pemenang 
-                                    //  I.S = pemenang belum ditampilkan
-                                    //  F.S = pemenang sudah ditampilkan
+void result(int r); //  prosedur untuk menampilkan pemenang 
+                    //  I.S = pemenang belum ditampilkan
+                    //  F.S = pemenang sudah ditampilkan
 void displayPetunjuk(int ukuran);   //  prosedur untuk menampilkan papan petunjuk
                                     //  I.S = papan petunjuk belum ditampilkan
                                     //  F.S = papan petunjuk sudah ditampilkan

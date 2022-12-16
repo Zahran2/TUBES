@@ -35,7 +35,7 @@ FILE *save;
 void *timer();	//  prosedur untuk menampilkan timer
                 //  I.S = timer belum muncul
                 //  F.S = timer sudah muncul
-int gameMenu(); //  function untuk menu game, akan mengembalikkan 1 atau 99
+int gameMenu(); //  function untuk menu game, akan mengembalikkan 1 untuk , 2 atau 99
 void readUkuran();  //	prosedur untuk membaca ukuran dari keyboard
                     //  I.S = ukuran belum terbaca dari keyboard
                     //  F.S = ukuran sudah terbaca dari keyboard
@@ -727,6 +727,9 @@ void userMove3(int p[49], int ply)
 void result(int r)
 
 {
+    game.player1.highscore = 0;
+    game.player2.highscore = 0;
+    game.pemenang.highscore = 0;
     if (r != 0)
     {
         if (r == -1)
@@ -880,30 +883,31 @@ void displayhighScore(){
     gotoxy(46,13);
     printf("| 1 |               |");
     gotoxy(46,14);
-    printf("=====================");
-    gotoxy(46,15);
-    printf("| 2 |               |");
-    gotoxy(46,16);
-    printf("=====================");
-    gotoxy(46,17);
-    printf("| 3 |               |");
-    gotoxy(46,18);
-    printf("=====================");
-    gotoxy(46,19);
-    printf("| 4 |               |");
-    gotoxy(46,20);
-    printf("=====================");
-    gotoxy(46,21);
-    printf("| 5 |               |");
-    gotoxy(46,22);
-    printf("=====================");
-    while(i < 5)
-    {
+    // printf("=====================");
+    // gotoxy(46,15);
+    // printf("| 2 |               |");
+    // gotoxy(46,16);
+    // printf("=====================");
+    // gotoxy(46,17);
+    // printf("| 3 |               |");
+    // gotoxy(46,18);
+    // printf("=====================");
+    // gotoxy(46,19);
+    // printf("| 4 |               |");
+    // gotoxy(46,20);
+    // printf("=====================");
+    // gotoxy(46,21);
+    // printf("| 5 |               |");
+    // gotoxy(46,22);
+    // printf("=====================");
+    // while(i < 5)
+    // {
+        i=0;
         gotoxy(48,k);
         printf("%d | %s  %d",i+1,data[i].pemenang.nama, data[i].pemenang.highscore);
-        i++;
-        k=k+2;
-    }
+        // i++;
+        // k=k+2;
+    //}
     printf("\n\n");
 }
 
