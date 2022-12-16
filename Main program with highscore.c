@@ -32,43 +32,94 @@ Game data[100];
 Highscore score;
 FILE *save;
 
-void *timer();
-int gameMenu();
-void readUkuran();
-void readNama();
-void readSimbol();
-void runGame();
-void displayGame();
-void displayPlayer();
-void displayPapan1(int p[9]);
-void displayPapan2(int p[25]);
-void displayPapan3(int p[49]);
-void saveFile();
-void displayMenu();
-void readMenu(int *menu);
-void newGame();
-void displayBanner();
-void displayGame(int ukuran);
-void gotoxy(int x, int y);
-char sign(int x);
-int win1(int p[9]);
-int win2(int p[25]);
-int win3(int p[49]);
-void userMove1(int p[9], int ply);
-void userMove2(int p[25], int ply);
-void userMove3(int p[49], int ply);
-void result(int r);
-void displayPetunjuk(int ukuran);
-void readHighScore();
-void getData();
-void saveFile();
-void displayhighScore();
-void sortdata();
+void *timer();	//  prosedur untuk menampilkan timer
+                //  I.S = timer belum muncul
+                //  F.S = timer sudah muncul
+int gameMenu(); //  function untuk menu game, akan mengembalikkan 1 atau 99
+void readUkuran();  //	prosedur untuk membaca ukuran dari keyboard
+                    //  I.S = ukuran belum terbaca dari keyboard
+                    //  F.S = ukuran sudah terbaca dari keyboard
+void readNama();    //  prosedur untuk membaca nama dari keyboard
+                    //  I.S = nama belum terbaca dari keyboard
+                    //  F.S = nama sudah terbaca dari keyboard
+void readSimbol();  //  prosedur untuk membaca simbol dari keyboard
+                    //  I.S = simbol belum terbaca dari keyboard
+                    //  F.S = simbol belum terbaca dari keyboard
+void runGame();	//  prosedur menjalankan gameplay
+                //  I.S = gameplay belum dijalankan
+                //  F.S = gameplay sudah dijalankan
+void displayGame(); //  prosedur untuk display game
+                    //  I.S = game belum ditampilkan
+                    //  F.S = game sudah ditampilkan
+void displayPlayer();	//  prosedur display papan 3 x 3
+                        //  I.S = papan 3 x 3 belum ditampilkan
+                        //  F.S = papan 3 x 3 sudah ditampilkan
+void displayPapan1(int p[9]); 	//  prosedur display papan 3 x 3
+                                //  I.S = papan 3 x 3 belum ditampilkan
+                                //  F.S = papan 3 x 3 sudah ditampilkan
+void displayPapan2(int p[25]);	//  prosedur display papan 5 x 5
+                                // I.S = papan 5 x 5 belum ditampilkan
+                                // F.S = papan 5 x 5 sudah ditampilkan
+void displayPapan3(int p[49]);	//  prosedur display papan 7 x 7
+                                //  I.S = papan 7 x 7 belum ditampilkan
+                                //  F.S = papan 7 x 7 sudah ditampilkan
+void displayMenu(); //  prosedur display menu
+                    //  I.S = menu belum ditampilkan
+                    //  F.S = menu sudah ditampilkan
+void readMenu(int *menu);   //  prosedur untuk membaca menu dari keyboard
+                            //  I.S = menu belum terbaca dari keyboard
+                            //  F.S = menu sudah terbaca dari keyboard
+void newGame();	//  prosedur untuk menjalankan permulaan game
+                //  I.S = game belum dimulai
+                //  F.S = game sudah dimulai
+void displayBanner(); 	//  prosedur display banner
+                        //  I.S = banner belum ditampilkan
+                        //  F.S = banner sudah ditampilkan
+void displayGame(int ukuran);	//  prosedur display gameplay
+                                //  I.S = game belum ditampilkan
+                                //  F.S = game sudah ditampilkan
+void gotoxy(int x, int y);  //  prosedur untuk memindahkan cursor sesuai koordinat
+                            //  I.S = cursor belum berpindah
+                            //  F.S = cursor sudah berpindah
+char sign(int x);	//  fungsi untuk mengecek tanda yang harus dikirim ke papan, akan mengembalikan ' ', 'x', atau 'o'
+int win1(int p[9]);	//  fungsi untuk mengecek kondisi menang papan 3 x 3, akan mengembalikan -1, 0, atau 1
+int win2(int p[25]); 	//  fungsi untuk mengecek kondisi menang papan 5 x 5, akan mengembalikan -1, 0, atau 1
+int win3(int p[49]);	//  fungsi untuk mengecek kondisi menang papan 7 x 7, akan mengembalikan -1, 0, atau 1
+void userMove1(int p[9], int ply);  //  prosedur untuk menampung pergerakan pemain dari keyboard papan 3 x 3
+                                    //  I.S = pergerakan pemain belum ditampung dari keyboard papan 3 x 3
+                                    //  F.S = pergerakan pemain sudah ditampung dari keyboard papan 3 x 3
+void userMove2(int p[25], int ply); //  prosedur untuk menampung pergerakan pemain dari keyboard papan 5 x 5
+                                    //  I.S = pergerakan pemain belum ditampung dari keyboard papan 5 x 5
+                                    //  F.S = pergerakan pemain sudah ditampung dari keyboard papan 5 x 5
+void userMove3(int p[49], int ply); //  prosedur untuk menampung pergerakan pemain dari keyboard papan 7 x 7
+                                    //  I.S = pergerakan pemain belum ditampung dari keyboard papan 7 x 7
+                                    //  F.S = pergerakan pemain sudah ditampung dari keyboard papan 7 x 7
+void result(int r); //  prosedur untuk menampilkan pemenang 
+                    //  I.S = pemenang belum ditampilkan
+                    //  F.S = pemenang sudah ditampilkan
+void displayPetunjuk(int ukuran);   //  prosedur untuk menampilkan papan petunjuk
+                                    //  I.S = papan petunjuk belum ditampilkan
+                                    //  F.S = papan petunjuk sudah ditampilkan
+void readHighScore(); //proedur untuk membaca dan menambahkan score pemain
+		      // I. S = nilai score pemain belum terbaca
+		      // F. S = nilai score pemain sudah terbaca dan jika pernah bermain sebelumnya kemudian score ditambah
+void getData();	//prosedur untuk mengambil data pemain dari file
+		// I. S = data dari file belum terambil
+		// F. S = data dari file sudah diambil dan dimasukkan kedalam array
+void saveFile();	//prosedur untuk menyimpan data pemain kedalam file
+			// I. S = data belum disimpan kedalam file
+			// F. S = data sudah disimpan kedalam file
+void displayhighScore();	//prosedur untuk menampilkan highscore dari pemain yang sudah main sebelumnya
+				// I. S = highscore dari pemain belum ditampilkan 
+				// F. S = highscore dari pemain sudah ditampilkan
+void sortdata();	//prosedur untuk mensorting data pemain berdasarkan score secara descending
+			// I. S = data pemain belum terurut
+			// F. S = data pemain sudah terurut
 
-int stopThread;
-int waktuHabis;
+int stopThread; //var untuk menghentikan thread timer
+int waktuHabis; //var untuk menentukan timer sudah habis atau belum
 
-pthread_t t;
+pthread_t t; //var untuk thread baru
 
 #define DASH "=========================================="
 
@@ -467,8 +518,12 @@ int win1(int p[9])
 {
     int chance[8][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
     for (int i = 0; i < 8; i++)
+    {
         if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]])
+        {
             return p[chance[i][0]];
+        }
+    }
     return 0;
 }
 
@@ -478,8 +533,12 @@ int win2(int p[25])
                             {0, 5, 10, 15}, {5, 10, 15, 20}, {1, 6, 11, 16}, {6, 11, 16, 21}, {2, 7, 12, 17}, {7, 12, 17, 22}, {3, 8, 13, 18}, {8, 13, 18, 23}, {4, 9, 14, 19}, {9, 14, 19, 24}, 
                             {0, 6, 12, 18}, {6, 12, 18, 24}, {4, 8, 12, 16}, {8, 12, 16, 20}, {1, 7, 13, 19}, {5, 11, 17, 23}, {3, 7, 11, 15}, {9, 13, 17, 21}};
     for (int i = 0; i < 28; i++)
+    {
         if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]] && p[chance[i][0]] == p[chance[i][3]])
+        {
             return p[chance[i][0]];
+        }
+    }
     return 0;
 }
 
@@ -489,8 +548,12 @@ int win3(int p[49])
                         {0, 7, 14, 21, 28}, {7, 14, 21, 28, 35}, {14, 21, 28, 35, 42}, {1, 8, 15, 22, 29}, {8, 15, 22, 29, 36}, {15, 22, 29, 36, 43}, {2, 9, 16, 23, 30}, {9, 16, 23, 30, 37}, {16, 23, 30, 37, 44}, {3, 10, 17, 24, 31}, {10, 17, 24, 31, 38}, {17, 24, 31, 38, 45}, {4, 11, 18, 25, 32}, {11, 18, 25, 32, 39}, {18, 25, 32, 39, 46}, {5, 12, 19, 26, 33}, {12, 19, 26, 33, 40}, {19, 26, 33, 40, 47}, {6, 13, 20, 27, 34}, {13, 20, 27, 34, 41}, {20, 27, 34, 41, 48},
                         {0, 8, 16, 24, 32}, {8, 16, 24, 32, 40}, {16, 24, 32, 40, 48}, {6, 12, 18, 24, 30}, {12, 18, 24, 30, 36}, {18, 24, 30, 36, 42}, {7, 15, 23, 31, 39}, {15, 23, 31, 39, 47}, {14, 22, 30, 38, 46}, {1, 9, 17, 25, 33}, {9, 17, 25, 33, 41}, {2, 10, 18, 26, 34}, {5, 11, 17, 23, 29}, {11, 17, 23, 29, 35}, {4, 10, 16, 22, 28}, {13, 19, 25, 31, 37}, {19, 25, 31, 37, 43}, {20, 26, 32, 38, 44}};
     for (int i = 0; i < 60; i++)
+    {
         if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]] && p[chance[i][0]] == p[chance[i][3]] && p[chance[i][0]] == p[chance[i][4]])
+        {
             return p[chance[i][0]];
+        }
+    }
     return 0;
 }
 
@@ -675,7 +738,7 @@ void result(int r)
                 game.pemenang.highscore = game.player1.highscore;
                 strcpy(game.pemenang.nama, game.player1.nama);
             }
-            else
+            else if (game.player1.simbol == 'o')
             {
                 printf("\n\t\t\t\t\t\t%s IS THE WINNER!", game.player2.nama);
                 game.player2.highscore++;
@@ -692,7 +755,7 @@ void result(int r)
                 game.pemenang.highscore = game.player1.highscore;
                 strcpy(game.pemenang.nama, game.player1.nama);
             }
-            else
+            else if (game.player1.simbol == 'x')
             {
                 printf("\n\t\t\t\t\t\t%s IS THE WINNER!", game.player2.nama);
                 game.player2.highscore++;
@@ -806,12 +869,42 @@ void getData(){
 }
 
 void displayhighScore(){
-    int i=0;
+    int i=0,k=13;
+    displayBanner();
+    gotoxy(46,10);
+    printf("=====================");
+    gotoxy(46,11);
+    printf("|\t    HIGH SCORE\t  |");
+    gotoxy(46,12);
+    printf("=====================");
+    gotoxy(46,13);
+    printf("| 1 |               |");
+    gotoxy(46,14);
+    printf("=====================");
+    gotoxy(46,15);
+    printf("| 2 |               |");
+    gotoxy(46,16);
+    printf("=====================");
+    gotoxy(46,17);
+    printf("| 3 |               |");
+    gotoxy(46,18);
+    printf("=====================");
+    gotoxy(46,19);
+    printf("| 4 |               |");
+    gotoxy(46,20);
+    printf("=====================");
+    gotoxy(46,21);
+    printf("| 5 |               |");
+    gotoxy(46,22);
+    printf("=====================");
     while(i < 5)
     {
-        printf("%s\t%d\n",data[i].pemenang.nama, data[i].pemenang.highscore);
+        gotoxy(48,k);
+        printf("%d | %s  %d",i+1,data[i].pemenang.nama, data[i].pemenang.highscore);
         i++;
+        k=k+2;
     }
+    printf("\n\n");
 }
 
 void sortdata(){
