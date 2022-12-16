@@ -28,33 +28,47 @@ typedef struct
 } Game;
 Game game;
 
-void *timer();
-int gameMenu();
-void readUkuran();
-void readNama();
-void readSimbol();
-void runGame();
-void displayGame();
-void displayPapan1(int p[9]);
-void displayPapan2(int p[25]);
-void displayPapan3(int p[49]);
-void saveFile();
-void displayMenu();
-void readMenu(int *menu);
-void newGame();
-void highScore();
-void displayBanner();
-void displayGame(int ukuran);
-void gotoxy(int x, int y);
-char sign(int x);
-int win1(int p[9]);
-int win2(int p[25]);
-int win3(int p[49]);
-void userMove1(int p[9], int ply);
-void userMove2(int p[25], int ply);
-void userMove3(int p[49], int ply);
-void result(int r);
-void displayPetunjuk(int ukuran);
+void *timer();  //  prosedur untuk menampilkan timer
+                //  I.S = timer belum muncul
+                //  F.S = timer sudah muncul
+int gameMenu(); //  function untuk menu game, akan mengembalikkan 1 atau 99
+void readUkuran();  //prosedur untuk membaca ukuran dari keyboard
+                    //  I.S = ukuran belum terbaca dari keyboard
+                    //  F.S = ukuran sudah terbaca dari keyboard
+void readNama();    //  prosedur untuk membaca nama dari keyboard
+                    //  I.S = nama belum terbaca dari keyboard
+                    //  F.S = nama sudah terbaca dari keyboard
+void readSimbol();  //  prosedur untuk membaca simbol dari keyboard
+                    //  I.S = simbol belum terbaca dari keyboard
+                    //  F.S = simbol belum terbaca dari keyboard
+void runGame(); //  prosedur menjalankan gameplay
+                //  I.S = gameplay belum dijalankan
+                //  F.S = gameplay sudah dijalankan
+void displayGame(); //  prosedur untuk display game
+                    //  I.S = game belum ditampilkan
+                    //  F.S = game sudah ditampilkan
+void displayPapan1(int p[9]);   //  prosedur display papan 3 x 3
+                                //  I.S = papan 3 x 3 belum ditampilkan
+                                //  F.S = papan 3 x 3 sudah ditampilkan
+void displayPapan2(int p[25]);  //  prosedur display papan 5 x 5
+                                // I.S = papan 5 x 5 sudah ditampilkan
+                                // 
+void displayPapan3(int p[49]); //prosedur display papan 7 x 7
+void displayMenu(); //prosedur display menu
+void readMenu(int *menu); //prosedur untuk membaca menu
+void newGame(); //prosedur untuk menjalankan permulaan game
+void displayBanner(); //prosedur display banner
+void displayGame(int ukuran); //prosedur display gameplay
+void gotoxy(int x, int y); //prosedur untuk memindahkan cursor sesuai koordinat
+char sign(int x); //fungsi untuk mengecek tanda yang harus dikirim ke papan, akan mengembalikan 
+int win1(int p[9]); //fungsi untuk mengecek kondisi menang papan 3 x 3, akan mengembalikan -1, 0, atau 1
+int win2(int p[25]); //fungsi untuk mengecek kondisi menang papan 5 x 5, akan mengembalikan -1, 0, atau 1
+int win3(int p[49]); //fungsi untuk mengecek kondisi menang papan 7 x 7, akan mengembalikan -1, 0, atau 1
+void userMove1(int p[9], int ply); //prosedur untuk menampung pergerakan pemain
+void userMove2(int p[25], int ply); //prosedur untuk menampung pergerakan pemain
+void userMove3(int p[49], int ply); //prosedur untuk menampung pergerakan pemain
+void result(int r); //prosedur untuk menampilkan pemenang
+void displayPetunjuk(int ukuran); //prosedur untuk menampilkan papan petunjuk
 
 int stopThread;
 int waktuHabis;
