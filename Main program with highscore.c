@@ -32,11 +32,19 @@ Game data[100];
 Highscore score;
 FILE *save;
 
-void *timer();
-int gameMenu();
-void readUkuran();
-void readNama();
-void readSimbol();
+void *timer();	//  prosedur untuk menampilkan timer
+                //  I.S = timer belum muncul
+                //  F.S = timer sudah muncul
+int gameMenu(); //  function untuk menu game, akan mengembalikkan 1 atau 99
+void readUkuran();  //	prosedur untuk membaca ukuran dari keyboard
+                    //  I.S = ukuran belum terbaca dari keyboard
+                    //  F.S = ukuran sudah terbaca dari keyboard
+void readNama();    //  prosedur untuk membaca nama dari keyboard
+                    //  I.S = nama belum terbaca dari keyboard
+                    //  F.S = nama sudah terbaca dari keyboard
+void readSimbol();  //  prosedur untuk membaca simbol dari keyboard
+                    //  I.S = simbol belum terbaca dari keyboard
+                    //  F.S = simbol belum terbaca dari keyboard
 void runGame();
 void displayGame();
 void displayPlayer();
