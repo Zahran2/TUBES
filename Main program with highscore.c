@@ -45,38 +45,81 @@ void readNama();    //  prosedur untuk membaca nama dari keyboard
 void readSimbol();  //  prosedur untuk membaca simbol dari keyboard
                     //  I.S = simbol belum terbaca dari keyboard
                     //  F.S = simbol belum terbaca dari keyboard
-void runGame();
-void displayGame();
-void displayPlayer();
-void displayPapan1(int p[9]);
-void displayPapan2(int p[25]);
-void displayPapan3(int p[49]);
-void saveFile();
-void displayMenu();
-void readMenu(int *menu);
-void newGame();
-void displayBanner();
-void displayGame(int ukuran);
-void gotoxy(int x, int y);
-char sign(int x);
-int win1(int p[9]);
-int win2(int p[25]);
-int win3(int p[49]);
-void userMove1(int p[9], int ply);
-void userMove2(int p[25], int ply);
-void userMove3(int p[49], int ply);
-void result(int r);
-void displayPetunjuk(int ukuran);
-void readHighScore();
-void getData();
-void saveFile();
-void displayhighScore();
-void sortdata();
+void runGame();	//  prosedur menjalankan gameplay
+                //  I.S = gameplay belum dijalankan
+                //  F.S = gameplay sudah dijalankan
+void displayGame(); //  prosedur untuk display game
+                    //  I.S = game belum ditampilkan
+                    //  F.S = game sudah ditampilkan
+void displayPlayer();	//  prosedur display papan 3 x 3
+                        //  I.S = papan 3 x 3 belum ditampilkan
+                        //  F.S = papan 3 x 3 sudah ditampilkan
+void displayPapan1(int p[9]); 	//  prosedur display papan 3 x 3
+                                //  I.S = papan 3 x 3 belum ditampilkan
+                                //  F.S = papan 3 x 3 sudah ditampilkan
+void displayPapan2(int p[25]);	//  prosedur display papan 5 x 5
+                                // I.S = papan 5 x 5 belum ditampilkan
+                                // F.S = papan 5 x 5 sudah ditampilkan
+void displayPapan3(int p[49]);	//  prosedur display papan 7 x 7
+                                //  I.S = papan 7 x 7 belum ditampilkan
+                                //  F.S = papan 7 x 7 sudah ditampilkan
+void displayMenu(); //  prosedur display menu
+                    //  I.S = menu belum ditampilkan
+                    //  F.S = menu sudah ditampilkan
+void readMenu(int *menu);   //  prosedur untuk membaca menu dari keyboard
+                            //  I.S = menu belum terbaca dari keyboard
+                            //  F.S = menu sudah terbaca dari keyboard
+void newGame();	//  prosedur untuk menjalankan permulaan game
+                //  I.S = game belum dimulai
+                //  F.S = game sudah dimulai
+void displayBanner(); 	//  prosedur display banner
+                        //  I.S = banner belum ditampilkan
+                        //  F.S = banner sudah ditampilkan
+void displayGame(int ukuran);	//  prosedur display gameplay
+                                //  I.S = game belum ditampilkan
+                                //  F.S = game sudah ditampilkan
+void gotoxy(int x, int y);  //  prosedur untuk memindahkan cursor sesuai koordinat
+                            //  I.S = cursor belum berpindah
+                            //  F.S = cursor sudah berpindah
+char sign(int x);	//  fungsi untuk mengecek tanda yang harus dikirim ke papan, akan mengembalikan ' ', 'x', atau 'o'
+int win1(int p[9]);	//  fungsi untuk mengecek kondisi menang papan 3 x 3, akan mengembalikan -1, 0, atau 1
+int win2(int p[25]); 	//  fungsi untuk mengecek kondisi menang papan 5 x 5, akan mengembalikan -1, 0, atau 1
+int win3(int p[49]);	//  fungsi untuk mengecek kondisi menang papan 7 x 7, akan mengembalikan -1, 0, atau 1
+void userMove1(int p[9], int ply);  //  prosedur untuk menampung pergerakan pemain dari keyboard papan 3 x 3
+                                    //  I.S = pergerakan pemain belum ditampung dari keyboard papan 3 x 3
+                                    //  F.S = pergerakan pemain sudah ditampung dari keyboard papan 3 x 3
+void userMove2(int p[25], int ply); //  prosedur untuk menampung pergerakan pemain dari keyboard papan 5 x 5
+                                    //  I.S = pergerakan pemain belum ditampung dari keyboard papan 5 x 5
+                                    //  F.S = pergerakan pemain sudah ditampung dari keyboard papan 5 x 5
+void userMove3(int p[49], int ply); //  prosedur untuk menampung pergerakan pemain dari keyboard papan 7 x 7
+                                    //  I.S = pergerakan pemain belum ditampung dari keyboard papan 7 x 7
+                                    //  F.S = pergerakan pemain sudah ditampung dari keyboard papan 7 x 7
+void result(int r); //  prosedur untuk menampilkan pemenang 
+                    //  I.S = pemenang belum ditampilkan
+                    //  F.S = pemenang sudah ditampilkan
+void displayPetunjuk(int ukuran);   //  prosedur untuk menampilkan papan petunjuk
+                                    //  I.S = papan petunjuk belum ditampilkan
+                                    //  F.S = papan petunjuk sudah ditampilkan
+void readHighScore(); //proedur untuk membaca dan menambahkan score pemain
+		      // I. S = nilai score pemain belum terbaca
+		      // F. S = nilai score pemain sudah terbaca dan jika pernah bermain sebelumnya kemudian score ditambah
+void getData();	//prosedur untuk mengambil data pemain dari file
+		// I. S = data dari file belum terambil
+		// F. S = data dari file sudah diambil dan dimasukkan kedalam array
+void saveFile();	//prosedur untuk menyimpan data pemain kedalam file
+			// I. S = data belum disimpan kedalam file
+			// F. S = data sudah disimpan kedalam file
+void displayhighScore();	//prosedur untuk menampilkan highscore dari pemain yang sudah main sebelumnya
+				// I. S = highscore dari pemain belum ditampilkan 
+				// F. S = highscore dari pemain sudah ditampilkan
+void sortdata();	//prosedur untuk mensorting data pemain berdasarkan score secara descending
+			// I. S = data pemain belum terurut
+			// F. S = data pemain sudah terurut
 
-int stopThread;
-int waktuHabis;
+int stopThread; //var untuk menghentikan thread timer
+int waktuHabis; //var untuk menentukan timer sudah habis atau belum
 
-pthread_t t;
+pthread_t t; //var untuk thread baru
 
 #define DASH "=========================================="
 
