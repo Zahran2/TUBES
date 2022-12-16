@@ -806,12 +806,42 @@ void getData(){
 }
 
 void displayhighScore(){
-    int i=0;
+    int i=0,k=13;
+    displayBanner();
+    gotoxy(46,10);
+    printf("=====================");
+    gotoxy(46,11);
+    printf("|\t    HIGH SCORE\t  |");
+    gotoxy(46,12);
+    printf("=====================");
+    gotoxy(46,13);
+    printf("| 1 |               |");
+    gotoxy(46,14);
+    printf("=====================");
+    gotoxy(46,15);
+    printf("| 2 |               |");
+    gotoxy(46,16);
+    printf("=====================");
+    gotoxy(46,17);
+    printf("| 3 |               |");
+    gotoxy(46,18);
+    printf("=====================");
+    gotoxy(46,19);
+    printf("| 4 |               |");
+    gotoxy(46,20);
+    printf("=====================");
+    gotoxy(46,21);
+    printf("| 5 |               |");
+    gotoxy(46,22);
+    printf("=====================");
     while(i < 5)
     {
-        printf("%s\t%d\n",data[i].pemenang.nama, data[i].pemenang.highscore);
+        gotoxy(48,k);
+        printf("%d | %s  %d",i+1,data[i].pemenang.nama, data[i].pemenang.highscore);
         i++;
+        k=k+2;
     }
+    printf("\n\n");
 }
 
 void sortdata(){
