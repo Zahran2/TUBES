@@ -467,8 +467,12 @@ int win1(int p[9])
 {
     int chance[8][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
     for (int i = 0; i < 8; i++)
+    {
         if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]])
+        {
             return p[chance[i][0]];
+        }
+    }
     return 0;
 }
 
@@ -478,8 +482,12 @@ int win2(int p[25])
                             {0, 5, 10, 15}, {5, 10, 15, 20}, {1, 6, 11, 16}, {6, 11, 16, 21}, {2, 7, 12, 17}, {7, 12, 17, 22}, {3, 8, 13, 18}, {8, 13, 18, 23}, {4, 9, 14, 19}, {9, 14, 19, 24}, 
                             {0, 6, 12, 18}, {6, 12, 18, 24}, {4, 8, 12, 16}, {8, 12, 16, 20}, {1, 7, 13, 19}, {5, 11, 17, 23}, {3, 7, 11, 15}, {9, 13, 17, 21}};
     for (int i = 0; i < 28; i++)
+    {
         if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]] && p[chance[i][0]] == p[chance[i][3]])
+        {
             return p[chance[i][0]];
+        }
+    }
     return 0;
 }
 
@@ -489,8 +497,12 @@ int win3(int p[49])
                         {0, 7, 14, 21, 28}, {7, 14, 21, 28, 35}, {14, 21, 28, 35, 42}, {1, 8, 15, 22, 29}, {8, 15, 22, 29, 36}, {15, 22, 29, 36, 43}, {2, 9, 16, 23, 30}, {9, 16, 23, 30, 37}, {16, 23, 30, 37, 44}, {3, 10, 17, 24, 31}, {10, 17, 24, 31, 38}, {17, 24, 31, 38, 45}, {4, 11, 18, 25, 32}, {11, 18, 25, 32, 39}, {18, 25, 32, 39, 46}, {5, 12, 19, 26, 33}, {12, 19, 26, 33, 40}, {19, 26, 33, 40, 47}, {6, 13, 20, 27, 34}, {13, 20, 27, 34, 41}, {20, 27, 34, 41, 48},
                         {0, 8, 16, 24, 32}, {8, 16, 24, 32, 40}, {16, 24, 32, 40, 48}, {6, 12, 18, 24, 30}, {12, 18, 24, 30, 36}, {18, 24, 30, 36, 42}, {7, 15, 23, 31, 39}, {15, 23, 31, 39, 47}, {14, 22, 30, 38, 46}, {1, 9, 17, 25, 33}, {9, 17, 25, 33, 41}, {2, 10, 18, 26, 34}, {5, 11, 17, 23, 29}, {11, 17, 23, 29, 35}, {4, 10, 16, 22, 28}, {13, 19, 25, 31, 37}, {19, 25, 31, 37, 43}, {20, 26, 32, 38, 44}};
     for (int i = 0; i < 60; i++)
+    {
         if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]] && p[chance[i][0]] == p[chance[i][3]] && p[chance[i][0]] == p[chance[i][4]])
+        {
             return p[chance[i][0]];
+        }
+    }
     return 0;
 }
 
@@ -675,7 +687,7 @@ void result(int r)
                 game.pemenang.highscore = game.player1.highscore;
                 strcpy(game.pemenang.nama, game.player1.nama);
             }
-            else
+            else if (game.player1.simbol == 'o')
             {
                 printf("\n\t\t\t\t\t\t%s IS THE WINNER!", game.player2.nama);
                 game.player2.highscore++;
@@ -692,7 +704,7 @@ void result(int r)
                 game.pemenang.highscore = game.player1.highscore;
                 strcpy(game.pemenang.nama, game.player1.nama);
             }
-            else
+            else if (game.player1.simbol == 'x')
             {
                 printf("\n\t\t\t\t\t\t%s IS THE WINNER!", game.player2.nama);
                 game.player2.highscore++;
