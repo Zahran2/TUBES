@@ -16,105 +16,267 @@ typedef struct
 typedef struct
 {
     char nama[11];
-    int highscore;
+    int score;
 } Highscore;
+
+typedef struct
+{
+    int papan[49];
+} Papan;
+
 
 typedef struct
 {
     int ukuran;
     int timer;
+    Papan papan;
     Player player1;
     Player player2;
+    Player pemenang;
 } Game;
 Game game;
+Game data[100];
+Highscore score;
+FILE *save;
+/*
+prosedur untuk menjalankan timer
+I.S = timer belum berjalan
+F.S = timer sudah berjalan
+*/
+void *timer();
 
-void *timer();  //  prosedur untuk menampilkan timer
-                //  I.S = timer belum muncul
-                //  F.S = timer sudah muncul
-int gameMenu(); //  function untuk menu game, akan mengembalikkan 1 atau 99
-void readUkuran();  //prosedur untuk membaca ukuran dari keyboard
-                    //  I.S = ukuran belum terbaca dari keyboard
-                    //  F.S = ukuran sudah terbaca dari keyboard
-void readNama();    //  prosedur untuk membaca nama dari keyboard
-                    //  I.S = nama belum terbaca dari keyboard
-                    //  F.S = nama sudah terbaca dari keyboard
-void readSimbol();  //  prosedur untuk membaca simbol dari keyboard
-                    //  I.S = simbol belum terbaca dari keyboard
-                    //  F.S = simbol belum terbaca dari keyboard
-void runGame(); //  prosedur menjalankan gameplay
-                //  I.S = gameplay belum dijalankan
-                //  F.S = gameplay sudah dijalankan
-void displayGame(); //  prosedur untuk display game
-                    //  I.S = game belum ditampilkan
-                    //  F.S = game sudah ditampilkan
-void displayPapan1(int p[9]);   //  prosedur display papan 3 x 3
-                                //  I.S = papan 3 x 3 belum ditampilkan
-                                //  F.S = papan 3 x 3 sudah ditampilkan
-void displayPapan2(int p[25]);  //  prosedur display papan 5 x 5
-                                // I.S = papan 5 x 5 belum ditampilkan
-                                // F.S = papan 5 x 5 sudah ditampilkan
-void displayPapan3(int p[49]);  //  prosedur display papan 7 x 7
-                                //  I.S = papan 7 x 7 belum ditampilkan
-                                //  F.S = papan 7 x 7 sudah ditampilkan
-void displayMenu(); //  prosedur display menu
-                    //  I.S = menu belum ditampilkan
-                    //  F.S = menu sudah ditampilkan
-void readMenu(int *menu);   //  prosedur untuk membaca menu dari keyboard
-                            //  I.S = menu belum terbaca dari keyboard
-                            //  F.S = menu sudah terbaca dari keyboard
-void newGame(); //  prosedur untuk menjalankan permulaan game
-                //  I.S = game belum dimulai
-                //  F.S = game sudah dimulai
-void displayBanner();   //  prosedur display banner
-                        //  I.S = banner belum ditampilkan
-                        //  F.S = banner sudah ditampilkan
-void displayGame(int ukuran);   //  prosedur display gameplay
-                                //  I.S = game belum ditampilkan
-                                //  F.S = game sudah ditampilkan
-void gotoxy(int x, int y);  //  prosedur untuk memindahkan cursor sesuai koordinat
-                            //  I.S = cursor belum berpindah
-                            //  F.S = cursor sudah berpindah
-char sign(int x);   //  fungsi untuk mengecek tanda yang harus dikirim ke papan, akan mengembalikan ' ', 'x', atau 'o'
-int win1(int p[9]); //  fungsi untuk mengecek kondisi menang papan 3 x 3, akan mengembalikan -1, 0, atau 1
-int win2(int p[25]);    //  fungsi untuk mengecek kondisi menang papan 5 x 5, akan mengembalikan -1, 0, atau 1
-int win3(int p[49]);    //  fungsi untuk mengecek kondisi menang papan 7 x 7, akan mengembalikan -1, 0, atau 1
-void userMove1(int p[9], int ply);  //  prosedur untuk menampung pergerakan pemain dari keyboard papan 3 x 3
-                                    //  I.S = pergerakan pemain belum ditampung dari keyboard papan 3 x 3
-                                    //  F.S = pergerakan pemain sudah ditampung dari keyboard papan 3 x 3
-void userMove2(int p[25], int ply); //  prosedur untuk menampung pergerakan pemain dari keyboard papan 5 x 5
-                                    //  I.S = pergerakan pemain belum ditampung dari keyboard papan 5 x 5
-                                    //  F.S = pergerakan pemain sudah ditampung dari keyboard papan 5 x 5
-void userMove3(int p[49], int ply); //  prosedur untuk menampung pergerakan pemain dari keyboard papan 7 x 7
-                                    //  I.S = pergerakan pemain belum ditampung dari keyboard papan 7 x 7
-                                    //  F.S = pergerakan pemain sudah ditampung dari keyboard papan 7 x 7
-void result(int r); //  prosedur untuk menampilkan pemenang 
-                    //  I.S = pemenang belum ditampilkan
-                    //  F.S = pemenang sudah ditampilkan
-void displayPetunjuk(int ukuran);   //  prosedur untuk menampilkan papan petunjuk
-                                    //  I.S = papan petunjuk belum ditampilkan
-                                    //  F.S = papan petunjuk sudah ditampilkan
+/*
+function untuk menu game, akan mengembalikkan 1 untuk memulai game, 2 untuk memunculkan highscore, atau 99 untuk exit
+*/
+int gameMenu();
 
-int stopThread; //  var untuk memberhentikan thread timer
-int waktuHabis; //  var untuk menentukan timer sudah habis atau belum
+/*
+prosedur untuk membaca ukuran dari keyboard
+I.S = ukuran belum terbaca dari keyboard
+F.S = ukuran sudah terbaca dari keyboard
+*/
+void readUkuran();
 
-pthread_t t;
+/*  
+prosedur untuk membaca nama dari keyboard
+I.S = nama belum terbaca dari keyboard
+F.S = nama sudah terbaca dari keyboard
+*/
+void readNama();
+
+/*
+prosedur untuk membaca simbol dari keyboard
+I.S = simbol belum terbaca dari keyboard
+F.S = simbol belum terbaca dari keyboard
+*/
+void readSimbol();
+
+/*
+prosedur menjalankan gameplay
+I.S = gameplay belum dijalankan
+F.S = gameplay sudah dijalankan
+*/
+void runGame();
+
+/*
+prosedur untuk display game
+I.S = game belum ditampilkan
+F.S = game sudah ditampilkan
+*/
+void displayGame();
+
+/*
+prosedur display papan 3 x 3
+I.S = papan 3 x 3 belum ditampilkan
+F.S = papan 3 x 3 sudah ditampilkan
+*/
+void displayPapan1();
+
+/*
+prosedur display papan 5 x 5
+I.S = papan 5 x 5 belum ditampilkan
+F.S = papan 5 x 5 sudah ditampilkan
+*/
+void displayPapan2();
+
+/*
+prosedur display papan 7 x 7
+I.S = papan 7 x 7 belum ditampilkan
+F.S = papan 7 x 7 sudah ditampilkan
+*/
+void displayPapan3();
+
+/*
+prosedur display menu
+I.S = menu belum ditampilkan
+F.S = menu sudah ditampilkan
+*/
+void displayMenu();
+
+/*
+prosedur untuk membaca menu dari keyboard
+I.S = menu belum terbaca dari keyboard
+F.S = menu sudah terbaca dari keyboard
+*/
+void readMenu(int *menu);
+
+/*
+prosedur untuk menjalankan permulaan game
+I.S = game belum dimulai
+F.S = game sudah dimulai
+*/
+void newGame();
+
+/*
+prosedur display banner
+I.S = banner belum ditampilkan
+F.S = banner sudah ditampilkan
+*/
+void displayBanner(); 	
+
+/*
+prosedur display gameplay
+I.S = game belum ditampilkan
+F.S = game sudah ditampilkan
+*/
+void displayGame();
+
+/*
+prosedur untuk memindahkan cursor sesuai koordinat
+I.S = cursor belum berpindah
+F.S = cursor sudah berpindah
+*/
+void gotoxy(int x, int y);
+
+/*
+fungsi untuk mengecek tanda yang harus dikirim ke papan, akan mengembalikan ' ' jika 0, 'x' jika -1, atau 'o' jika 1
+*/
+char sign(int tandaAngka);	
+
+/*
+fungsi untuk mengecek kondisi menang papan 3 x 3, akan mengembalikan -1 jika 'x' yang menang, 0 untuk tidak terpenuhi kondisi menangnya, atau 1 jika 'o' yang menang
+*/
+int win1();
+
+/*
+fungsi untuk mengecek kondisi menang papan 5 x 5, akan mengembalikan -1 jika 'x' yang menang, 0 untuk tidak terpenuhi kondisi menangnya, atau 1 jika 'o' yang menang
+*/
+int win2();
+
+/*
+fungsi untuk mengecek kondisi menang papan 7 x 7, akan mengembalikan -1 jika 'x' yang menang, 0 untuk tidak terpenuhi kondisi menangnya, atau 1 jika 'o' yang menang
+*/
+int win3();
+
+/*
+prosedur untuk menampung pergerakan pemain dari keyboard untuk papan 3 x 3
+I.S = pergerakan pemain belum ditampung dari keyboard untuk papan 3 x 3
+F.S = pergerakan pemain sudah ditampung dari keyboard untuk papan 3 x 3
+*/
+void userMove1(int ply);
+
+/*
+prosedur untuk menampung pergerakan pemain dari keyboard untuk papan 5 x 5
+I.S = pergerakan pemain belum ditampung dari keyboard untuk papan 5 x 5
+F.S = pergerakan pemain sudah ditampung dari keyboard untuk papan 5 x 5
+*/
+void userMove2(int ply);
+
+/*
+prosedur untuk menampung pergerakan pemain dari keyboard untuk papan 7 x 7
+I.S = pergerakan pemain belum ditampung dari keyboard untuk papan 7 x 7
+F.S = pergerakan pemain sudah ditampung dari keyboard untuk papan 7 x 7
+*/
+void userMove3(int ply);
+
+/*
+prosedur untuk menentukan hasil permainan 
+I.S = hasil permainan belum ditentukan
+F.S = hasil permainan sudah ditentukan 
+*/
+void result(int statusMenang);
+
+/*
+prosedur untuk menampilkan papan petunjuk
+I.S = papan petunjuk belum ditampilkan
+F.S = papan petunjuk sudah ditampilkan
+*/
+void displayPetunjuk();
+
+/*
+proedur untuk membaca dan menambahkan score pemain
+I. S = nilai score pemain belum terbaca
+F. S = nilai score pemain sudah terbaca dan jika pernah bermain sebelumnya kemudian score ditambah
+*/
+void readHighScore();
+
+/*
+prosedur untuk mengambil data pemain dari file
+I. S = data dari file belum terambil
+F. S = data dari file sudah diambil dan dimasukkan kedalam array
+*/
+void readDataHighscore();
+
+/*
+prosedur untuk menyimpan data pemain kedalam file
+I. S = data belum disimpan kedalam file
+F. S = data sudah disimpan kedalam file
+*/
+void saveFile();
+
+/*
+prosedur untuk menampilkan highscore dari pemain yang sudah main sebelumnya
+I. S = highscore dari pemain belum ditampilkan 
+F. S = highscore dari pemain sudah ditampilkan
+*/
+void displayhighScore();
+
+/*
+prosedur untuk mensorting data pemain berdasarkan score secara descending
+I. S = data pemain belum terurut
+F. S = data pemain sudah terurut
+*/
+void sortdata();
+
+/*
+prosedur untuk menampilkan how to play
+I.S = how to play belum ditampilkan
+F.S = how to play sudah ditampilkan
+*/
+void displayHowToPlay();
+
+// var untuk menghentikan thread timer
+int stopThread;
+// var untuk menentukan timer sudah habis atau belum
+int waktuHabis; 
+// var untuk thread baru
+pthread_t t; 
 
 #define DASH "=========================================="
 
 int main()
 {
     int menu;
+    while(menu != 99){
     menu = gameMenu();
     if (menu == 1)
     {
         newGame();
         runGame();
+        system("pause");
+        system("cls");
     }
-    /*if (menu == 2)
+    else if (menu == 2)
     {
-        highScore();
-    }
-    */
+        readDataHighscore();
+        sortdata();
+        // for(int i = 0; i<100; i++){
+        //     printf("%s %d\n", data[i].pemenang.nama, data[i].pemenang.highscore);
+        // }
+        displayhighScore();
+        system("pause");
+        system("cls");
+    }}
     return 0;
 }
 
@@ -171,7 +333,8 @@ void readMenu(int *menu)
 void readUkuran()
 {
     system("cls");
-    game.ukuran = 1;
+    int ukuran;
+    ukuran = 1;
     do
     {
         displayBanner();
@@ -179,14 +342,26 @@ void readUkuran()
         printf("\n(1) 3 x 3");
         printf("\n(2) 5 x 5");
         printf("\n(3) 7 x 7");
-        if (game.ukuran < 1 || game.ukuran > 3)
+        if (ukuran < 1 || ukuran > 3)
         {
             printf("\nInputan salah!");
         }
         printf("\nSilahkan masukkan ukuran papan: ");
-        scanf("%i", &game.ukuran);
+        scanf("%i", &ukuran);
         system("cls");
-    } while (game.ukuran < 1 || game.ukuran > 3);
+    } while (ukuran < 1 || ukuran > 3);
+    if (ukuran == 1)
+    {
+        game.ukuran = 3;
+    }
+    else if (ukuran == 2)
+    {
+        game.ukuran = 5;
+    }
+    else if (ukuran == 3)
+    {
+        game.ukuran = 7;
+    }
 }
 
 void readNama()
@@ -236,102 +411,105 @@ void newGame()
 
 void runGame()
 {
-    int ukuran;
-    if (game.ukuran == 1)
+    int draw;
+    for (int i = 0; i < 49; i++)
     {
-        int places[9] = {   0, 0, 0, 
-                            0, 0, 0, 
-                            0, 0, 0};
-        ukuran = 3;
-        int i;
-        for (i = 0; i < 9 && win1(places) == 0; i++)
-        {
-            displayGame(ukuran);
-            displayPapan1(places);
-            displayPetunjuk(ukuran);
-            if (i % 2 == 0)
-            {
-                userMove1(places, -1);
-            }
-            else
-            {
-                userMove1(places, 1);
-            }
-            displayPapan1(places);
-        }
-        displayGame(ukuran);
-        displayPapan1(places);
-        result(win1(places));
+        game.papan.papan[i] = 0;
     }
-    else if (game.ukuran == 2)
+    draw = 1;
+    if (game.ukuran == 3)
     {
-        int places[25] = {  0, 0, 0, 0, 0, 
-                            0, 0, 0, 0, 0, 
-                            0, 0, 0, 0, 0, 
-                            0, 0, 0, 0, 0, 
-                            0, 0, 0, 0, 0};
-        ukuran = 5;
         int i;
-        for (i = 0; i < 25 && win2(places) == 0; i++)
+        for (i = 0; i < 9 && win1() == 0; i++)
         {
-            // system("cls");
-            displayGame(ukuran);
-            displayPapan2(places);
-            displayPetunjuk(ukuran);
+            displayGame();
+            displayPapan1();
+            displayPetunjuk();
             if (i % 2 == 0)
             {
-                userMove2(places, -1);
+                userMove1(-1);
             }
             else
             {
-                userMove2(places, 1);
+                userMove1(1);
             }
-            displayPapan2(places);
+            displayPapan1();
         }
-        displayGame(ukuran);
-        displayPapan2(places);
-        result(win2(places));
+        displayGame();
+        displayPapan1();
+        result(win1());
+        if (win1() != 0)
+        {
+            draw = 0;
+        }
     }
-    else if (game.ukuran == 3)
+    else if (game.ukuran == 5)
     {
-        int places[49] = {  0, 0, 0, 0, 0, 0, 0, 
-                            0, 0, 0, 0, 0, 0, 0, 
-                            0, 0, 0, 0, 0, 0, 0, 
-                            0, 0, 0, 0, 0, 0, 0, 
-                            0, 0, 0, 0, 0, 0, 0, 
-                            0, 0, 0, 0, 0, 0, 0, 
-                            0, 0, 0, 0, 0, 0, 0};
-        ukuran = 7;
         int i;
-        for (i = 0; i < 49 && win3(places) == 0; i++)
+        for (i = 0; i < 25 && win2() == 0; i++)
         {
-            // system("cls");
-            displayGame(ukuran);
-            displayPapan3(places);
-            displayPetunjuk(ukuran);
+            displayGame();
+            displayPapan2();
+            displayPetunjuk();
             if (i % 2 == 0)
             {
-                userMove3(places, -1);
+                userMove2(-1);
             }
             else
             {
-                userMove3(places, 1);
+                userMove2(1);
             }
-            displayPapan3(places);
+            displayPapan2();
         }
-        displayGame(ukuran);
-        displayPapan3(places);
-        result(win3(places));
+        displayGame();
+        displayPapan2();
+        result(win2());
+        if (win2() != 0)
+        {
+            draw = 0;
+        }
+    }
+    else if (game.ukuran == 7)
+    {
+        
+        int i;
+        for (i = 0; i < 49 && win3() == 0; i++)
+        {
+            displayGame();
+            displayPapan3();
+            displayPetunjuk();
+            if (i % 2 == 0)
+            {
+                userMove3(-1);
+            }
+            else
+            {
+                userMove3(1);
+            }
+            displayPapan3();
+        }
+        displayGame();
+        displayPapan3();
+        result(win3());
+        if (win3() != 0)
+        {
+            draw = 0;
+        }
+    }
+    if (draw == 0)
+    {
+        readHighScore();
+        saveFile();
     }
 }
 
-void displayGame(int ukuran)
+void displayGame()
 {
     displayBanner();
-    if (ukuran == 3)
+    if (game.ukuran == 3)
     {
         gotoxy(55, 8);
-        printf("PAPAN %d x %d", ukuran, ukuran);
+        printf("PAPAN %d x %d", game.ukuran, game.ukuran);
         if (game.player1.simbol == 'x')
         {
             gotoxy(40, 11);
@@ -350,10 +528,10 @@ void displayGame(int ukuran)
         gotoxy(40, 12);
         printf("   x                                  o   ");
     }
-    else if (ukuran == 5)
+    else if (game.ukuran == 5)
     {
         gotoxy(52, 8);
-        printf("PAPAN %d x %d", ukuran, ukuran);
+        printf("PAPAN %d x %d", game.ukuran, game.ukuran);
         if (game.player1.simbol == 'x')
         {
             gotoxy(35, 13);
@@ -371,10 +549,10 @@ void displayGame(int ukuran)
         gotoxy(38, 14);
         printf("x                                    o   ");
     }
-    else if (ukuran == 7)
+    else if (game.ukuran == 7)
     {
         gotoxy(54, 9);
-        printf("PAPAN %d x %d", ukuran, ukuran);
+        printf("PAPAN %d x %d", game.ukuran, game.ukuran);
         if (game.player1.simbol == 'x')
         {
             gotoxy(33, 16);
@@ -394,14 +572,14 @@ void displayGame(int ukuran)
     }
 }
 
-void displayPapan1(int p[9])
+void displayPapan1()
 {
     int i, j;
     j = 0;
     for (i = 0; i < 9; i += 3)
     {
         gotoxy(56, 10 + j);
-        printf(" %c | %c | %c ", sign(p[i]), sign(p[i + 1]), sign(p[i + 2]));
+        printf(" %c | %c | %c ", sign(game.papan.papan[i]), sign(game.papan.papan[i + 1]), sign(game.papan.papan[i + 2]));
         j++;
 
         if (i < 6)
@@ -414,14 +592,14 @@ void displayPapan1(int p[9])
     printf("\n");
 }
 
-void displayPapan2(int p[25])
+void displayPapan2()
 {
     int i, j;
     j = 0;
     for (i = 0; i < 25; i += 5)
     {
         gotoxy(48, 10 + j);
-        printf(" %c | %c | %c | %c | %c ", sign(p[i]), sign(p[i + 1]), sign(p[i + 2]), sign(p[i + 3]), sign(p[i + 4]));
+        printf(" %c | %c | %c | %c | %c ", sign(game.papan.papan[i]), sign(game.papan.papan[i + 1]), sign(game.papan.papan[i + 2]), sign(game.papan.papan[i + 3]), sign(game.papan.papan[i + 4]));
         j++;
         if (i < 20)
         {
@@ -433,14 +611,14 @@ void displayPapan2(int p[25])
     printf("\n");
 }
 
-void displayPapan3(int p[49])
+void displayPapan3()
 {
     int i, j;
     j = 0;
     for (i = 0; i < 49; i += 7)
     {
         gotoxy(46, 11 + j);
-        printf(" %c | %c | %c | %c | %c | %c | %c ", sign(p[i]), sign(p[i + 1]), sign(p[i + 2]), sign(p[i + 3]), sign(p[i + 4]), sign(p[i + 5]), sign(p[i + 6]));
+        printf(" %c | %c | %c | %c | %c | %c | %c ", sign(game.papan.papan[i]), sign(game.papan.papan[i + 1]), sign(game.papan.papan[i + 2]), sign(game.papan.papan[i + 3]), sign(game.papan.papan[i + 4]), sign(game.papan.papan[i + 5]), sign(game.papan.papan[i + 6]));
         j++;
         if (i < 36)
         {
@@ -452,22 +630,21 @@ void displayPapan3(int p[49])
     printf("\n");
 }
 
-char sign(int x) //  return ' ', 'X', 'O' if 0, -1 , 1.
+char sign(int tandaAngka)
 {
     char tanda;
-    if (x == 0)
+    if (tandaAngka == 0)
     {
         tanda = ' ';
     }
-    else if (x == -1)
+    else if (tandaAngka == -1)
     {
         tanda = 'x';
     }
-    else if (x == 1)
+    else if (tandaAngka == 1)
     {
         tanda = 'o';
     }
-
     return tanda;
 }
 
@@ -477,34 +654,46 @@ void gotoxy(int x, int y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-int win1(int p[9])
+int win1()
 {
     int chance[8][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
     for (int i = 0; i < 8; i++)
-        if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]])
-            return p[chance[i][0]];
+    {
+        if (game.papan.papan[chance[i][0]] != 0 && game.papan.papan[chance[i][0]] == game.papan.papan[chance[i][1]] && game.papan.papan[chance[i][0]] == game.papan.papan[chance[i][2]])
+        {
+            return game.papan.papan[chance[i][0]];
+        }
+    }
     return 0;
 }
 
-int win2(int p[25])
+int win2()
 {
     int chance[28][4] = {   {0, 1, 2, 3}, {1, 2, 3, 4}, {5, 6, 7, 8}, {6, 7, 8, 9}, {10, 11, 12, 13}, {11, 12, 13, 14}, {15, 16, 17, 18}, {16, 17, 18, 19}, {20, 21, 22, 23}, {21, 22, 23, 24}, 
                             {0, 5, 10, 15}, {5, 10, 15, 20}, {1, 6, 11, 16}, {6, 11, 16, 21}, {2, 7, 12, 17}, {7, 12, 17, 22}, {3, 8, 13, 18}, {8, 13, 18, 23}, {4, 9, 14, 19}, {9, 14, 19, 24}, 
                             {0, 6, 12, 18}, {6, 12, 18, 24}, {4, 8, 12, 16}, {8, 12, 16, 20}, {1, 7, 13, 19}, {5, 11, 17, 23}, {3, 7, 11, 15}, {9, 13, 17, 21}};
     for (int i = 0; i < 28; i++)
-        if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]] && p[chance[i][0]] == p[chance[i][3]])
-            return p[chance[i][0]];
+    {
+        if (game.papan.papan[chance[i][0]] != 0 && game.papan.papan[chance[i][0]] == game.papan.papan[chance[i][1]] && game.papan.papan[chance[i][0]] == game.papan.papan[chance[i][2]] && game.papan.papan[chance[i][0]] == game.papan.papan[chance[i][3]])
+        {
+            return game.papan.papan[chance[i][0]];
+        }
+    }
     return 0;
 }
 
-int win3(int p[49])
+int win3()
 {
     int chance[60][5] = { {0, 1, 2, 3, 4}, {1, 2, 3, 4, 5}, {2, 3, 4, 5, 6}, {7, 8, 9, 10, 11}, {8, 9, 10, 11, 12}, {9, 10, 11, 12, 13}, {14, 15, 16, 17, 18}, {15, 16, 17, 18, 19}, {16, 17, 18, 19, 20}, {21, 22, 23, 24, 25}, {22, 23, 24, 25, 26}, {23, 24, 25, 26, 27}, {28, 29, 30, 31, 32}, {29, 30, 31, 32, 33}, {30, 31, 32, 33, 34}, {35, 36, 37, 38, 39}, {36, 37, 38, 39, 40}, {37, 38, 39, 40, 41}, {42, 43, 44, 45, 46}, {43, 44, 45, 46, 47}, {44, 45, 46, 47, 48},
                         {0, 7, 14, 21, 28}, {7, 14, 21, 28, 35}, {14, 21, 28, 35, 42}, {1, 8, 15, 22, 29}, {8, 15, 22, 29, 36}, {15, 22, 29, 36, 43}, {2, 9, 16, 23, 30}, {9, 16, 23, 30, 37}, {16, 23, 30, 37, 44}, {3, 10, 17, 24, 31}, {10, 17, 24, 31, 38}, {17, 24, 31, 38, 45}, {4, 11, 18, 25, 32}, {11, 18, 25, 32, 39}, {18, 25, 32, 39, 46}, {5, 12, 19, 26, 33}, {12, 19, 26, 33, 40}, {19, 26, 33, 40, 47}, {6, 13, 20, 27, 34}, {13, 20, 27, 34, 41}, {20, 27, 34, 41, 48},
                         {0, 8, 16, 24, 32}, {8, 16, 24, 32, 40}, {16, 24, 32, 40, 48}, {6, 12, 18, 24, 30}, {12, 18, 24, 30, 36}, {18, 24, 30, 36, 42}, {7, 15, 23, 31, 39}, {15, 23, 31, 39, 47}, {14, 22, 30, 38, 46}, {1, 9, 17, 25, 33}, {9, 17, 25, 33, 41}, {2, 10, 18, 26, 34}, {5, 11, 17, 23, 29}, {11, 17, 23, 29, 35}, {4, 10, 16, 22, 28}, {13, 19, 25, 31, 37}, {19, 25, 31, 37, 43}, {20, 26, 32, 38, 44}};
     for (int i = 0; i < 60; i++)
-        if (p[chance[i][0]] != 0 && p[chance[i][0]] == p[chance[i][1]] && p[chance[i][0]] == p[chance[i][2]] && p[chance[i][0]] == p[chance[i][3]] && p[chance[i][0]] == p[chance[i][4]])
-            return p[chance[i][0]];
+    {
+        if (game.papan.papan[chance[i][0]] != 0 && game.papan.papan[chance[i][0]] == game.papan.papan[chance[i][1]] && game.papan.papan[chance[i][0]] == game.papan.papan[chance[i][2]] && game.papan.papan[chance[i][0]] == game.papan.papan[chance[i][3]] && game.papan.papan[chance[i][0]] == game.papan.papan[chance[i][4]])
+        {
+            return game.papan.papan[chance[i][0]];
+        }
+    }
     return 0;
 }
 
@@ -513,20 +702,20 @@ void *timer()
 	while (game.timer >= 0 && stopThread == 0)
 	{
 		sleep(1);
-		if (game.ukuran == 1)
+		if (game.ukuran == 3)
 		{
-			gotoxy(30, 18);
-			printf("   Silahkan masukkan input[%d]: ", game.timer);
+			gotoxy(33, 18);
+			printf("Silahkan masukkan input[%d]: ", game.timer);
 		}
-		else if (game.ukuran == 2)
+		else if (game.ukuran == 5)
 		{
-			gotoxy(30, 22);
-			printf("   Silahkan masukkan input[%d]: ", game.timer);
+			gotoxy(33, 22);
+			printf("Silahkan masukkan input[%d]: ", game.timer);
 		}
-		else if (game.ukuran == 3)
+		else if (game.ukuran == 7)
 		{
-			gotoxy(30, 27);
-			printf("   Silahkan masukkan input[%d]: ", game.timer);
+			gotoxy(33, 27);
+			printf("Silahkan masukkan input[%d]: ", game.timer);
 		}
 		game.timer--;
 	}
@@ -544,7 +733,7 @@ void *timer()
 	
 }
 
-void userMove1(int p[9], int ply)
+void userMove1(int ply)
 {
     int position;
     int salah;
@@ -566,16 +755,16 @@ void userMove1(int p[9], int ply)
 			break;
 		}
 
-        if (position >= 1 && position <= 9 && p[position - 1] == 0)
+        if (position >= 1 && position <= 9 && game.papan.papan[position - 1] == 0)
         {
 
             if (ply == -1)
             {
-            p[position - 1] = -1;
+            game.papan.papan[position - 1] = -1;
             }
             else
             {
-            p[position - 1] = 1;
+            game.papan.papan[position - 1] = 1;
             }
             salah = 0;
             system("cls");
@@ -590,7 +779,7 @@ void userMove1(int p[9], int ply)
     
 }
 
-void userMove2(int p[25], int ply)
+void userMove2(int ply)
 {
     int position;
     int salah;
@@ -611,16 +800,16 @@ void userMove2(int p[25], int ply)
 			break;
 		}
 
-        if (position >= 1 && position <= 25 && p[position - 1] == 0)
+        if (position >= 1 && position <= 25 && game.papan.papan[position - 1] == 0)
         {
 
             if (ply == -1)
             {
-            p[position - 1] = -1;
+            game.papan.papan[position - 1] = -1;
             }
             else
             {
-            p[position - 1] = 1;
+            game.papan.papan[position - 1] = 1;
             }
             salah = 0;
             system("cls");
@@ -633,7 +822,7 @@ void userMove2(int p[25], int ply)
     } while (salah == 1);
 }
 
-void userMove3(int p[49], int ply)
+void userMove3(int ply)
 {
     int position;
     int salah;
@@ -654,15 +843,15 @@ void userMove3(int p[49], int ply)
 			break;
 		}
 
-        if (position >= 1 && position <= 49 && p[position - 1] == 0)
+        if (position >= 1 && position <= 49 && game.papan.papan[position - 1] == 0)
         {
             if (ply == -1)
             {
-            p[position - 1] = -1;
+            game.papan.papan[position - 1] = -1;
             }
             else
             {
-            p[position - 1] = 1;
+            game.papan.papan[position - 1] = 1;
             }
             salah = 0;
             system("cls");
@@ -675,20 +864,29 @@ void userMove3(int p[49], int ply)
     } while (salah == 1);
 }
 
-void result(int r)
+void result(int statusMenang)
 
 {
-    if (r != 0)
+    game.player1.score = 0;
+    game.player2.score = 0;
+    game.pemenang.score = 0;
+    if (statusMenang != 0)
     {
-        if (r == -1)
+        if (statusMenang == -1)
         {
             if (game.player1.simbol == 'x')
             {
                 printf("\n\t\t\t\t\t\t%s IS THE WINNER!", game.player1.nama);
+                game.player1.score++;
+                game.pemenang.score = game.player1.score;
+                strcpy(game.pemenang.nama, game.player1.nama);
             }
-            else
+            else if (game.player1.simbol == 'o')
             {
                 printf("\n\t\t\t\t\t\t%s IS THE WINNER!", game.player2.nama);
+                game.player2.score++;
+                game.pemenang.score = game.player2.score;
+                strcpy(game.pemenang.nama, game.player2.nama);
             }
         }
         else
@@ -696,10 +894,16 @@ void result(int r)
             if (game.player1.simbol == 'o')
             {
                 printf("\n\t\t\t\t\t\t%s IS THE WINNER!", game.player1.nama);
+                game.player1.score++;
+                game.pemenang.score = game.player1.score;
+                strcpy(game.pemenang.nama, game.player1.nama);
             }
-            else
+            else if (game.player1.simbol == 'x')
             {
                 printf("\n\t\t\t\t\t\t%s IS THE WINNER!", game.player2.nama);
+                game.player2.score++;
+                game.pemenang.score = game.player2.score;
+                strcpy(game.pemenang.nama, game.player2.nama);
             }
         }
     }
@@ -709,9 +913,9 @@ void result(int r)
     }
 }
 
-void displayPetunjuk(int ukuran)
+void displayPetunjuk()
 {
-    if (ukuran == 3)
+    if (game.ukuran == 3)
     {
         printf("\n\n\n\n\n\n\n\t\t\t\t\t%s\n", DASH);
         for (int i = 1; i <= 9; i += 3)
@@ -720,7 +924,7 @@ void displayPetunjuk(int ukuran)
         }
         printf("\t\t\t\t\t%s\n", DASH);
     }
-    else if (ukuran == 5)
+    else if (game.ukuran == 5)
     {
         printf("\n\n\n\n\n\n\n\t\t\t\t      %s\n", DASH);
         for (int i = 1; i <= 25; i += 5)
@@ -737,7 +941,7 @@ void displayPetunjuk(int ukuran)
         }
         printf("\t\t\t\t      %s\n", DASH);
     }
-    else if (ukuran == 7)
+    else if (game.ukuran == 7)
     {
         printf("\n\n\n\n\n\n\n\t\t\t\t      %s\n", DASH);
         for (int i = 1; i <= 49; i += 7)
@@ -763,21 +967,107 @@ void displayPetunjuk(int ukuran)
     }
 }
 
-/*int main(int argc, char *argv[])
-{
-	pthread_t t1;
-	int test;
-	
-	pthread_create(&t1, NULL, &routine, NULL);
-	printf("Silahkan masukkan input: ");
-	scanf("%d", &test);
-	printf("%d", test);
-	pthread_join(t1, NULL);
-	
-	gotoxy(1, 1);
-	printf("masuk");
-	gotoxy(1, 1);
-	printf("keluar");
-	return 0;
+void readHighScore(){
+    int i=0,sama;
+
+    strcpy(score.nama, game.pemenang.nama);
+    score.score = game.pemenang.score;
+    readDataHighscore();
+    for(i = 0; i < 100; i++){
+        if(strcmp(score.nama, data[i].pemenang.nama)==0){
+            data[i].pemenang.score = data[i].pemenang.score + 1;
+            i=100;
+        }
+    }
+    if(i==100){
+    strcpy(data[20].pemenang.nama, score.nama);
+    data[20].pemenang.score = score.score;
+    }
 }
-*/
+
+void saveFile(){
+    FILE *save = fopen("Data_Highscore.txt","w");
+    sortdata();
+    for(int i=0;i<100;i++){
+    fprintf(save,"%s %d\n", &(data[i]).pemenang.nama, data[i].pemenang.score);
+    }
+    fclose(save);
+}
+
+void readDataHighscore(){
+    FILE *save;
+    int i=0;
+    char ch;
+    save = fopen("Data_Highscore.txt", "r");
+    if(NULL == save) {
+        printf("File kosong \n"); 
+    }
+
+    while (ch!=EOF){
+        fscanf(save," %s %d", &data[i].pemenang.nama, &data[i].pemenang.score);
+        ch=fgetc(save);
+        i++;
+    }
+    fclose(save);
+}
+
+void displayhighScore(){
+    int i=0,k=13;
+    displayBanner();
+    gotoxy(46,10);
+    printf("=====================");
+    gotoxy(46,11);
+    printf("|\t    HIGH SCORE\t  |");
+    gotoxy(46,12);
+    printf("=====================");
+    gotoxy(46,13);
+    printf("| 1 |               |");
+    gotoxy(46,14);
+    printf("=====================");
+    // gotoxy(46,15);
+    // printf("| 2 |               |");
+    // gotoxy(46,16);
+    // printf("=====================");
+    // gotoxy(46,17);
+    // printf("| 3 |               |");
+    // gotoxy(46,18);
+    // printf("=====================");
+    // gotoxy(46,19);
+    // printf("| 4 |               |");
+    // gotoxy(46,20);
+    // printf("=====================");
+    // gotoxy(46,21);
+    // printf("| 5 |               |");
+    // gotoxy(46,22);
+    // printf("=====================");
+    // while(i < 5)
+    // {
+        i=0;
+        gotoxy(48,k);
+        printf("%d | %s  %d",i+1,data[i].pemenang.nama, data[i].pemenang.score);
+        // i++;
+        // k=k+2;
+    //}
+    printf("\n\n");
+}
+
+void sortdata(){
+    Highscore temp;
+    for (int i=0; i < (100-1); i++){
+        for (int j=0 ; j< (99-i);j++){
+            if ((data[j].pemenang.score < data[j+1].pemenang.score)&& (data[j+1].pemenang.score != 0)){
+                strcpy(temp.nama, data[j].pemenang.nama);
+                temp.score = data[j].pemenang.score;
+                strcpy(data[j].pemenang.nama, data[j+1].pemenang.nama);
+                data[j].pemenang.score = data[j+1].pemenang.score;
+                strcpy(data[j+1].pemenang.nama, temp.nama);
+                data[j+1].pemenang.score = temp.score;
+            }
+        }
+    }
+}
+
+void displayHowToPlay()
+{
+
+}

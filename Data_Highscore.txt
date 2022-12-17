@@ -1,7 +1,7 @@
+zahran 8
 bob 4
-zahran 2
- 1
-0 0
+anugerah 1
+1 0
 0 0
 0 0
 0 0
