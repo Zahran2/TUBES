@@ -267,7 +267,8 @@ void newGame()
 
 void runGame()
 {
-    int ukuran;
+    int ukuran, draw;
+    draw = 1;
     if (game.ukuran == 1)
     {
         int places[9] = {   0, 0, 0, 
@@ -293,8 +294,10 @@ void runGame()
         displayGame(ukuran);
         displayPapan1(places);
         result(win1(places));
-        readHighScore();
-        saveFile();
+        if (win1(places) != 0)
+        {
+            draw = 0;
+        }
     }
     else if (game.ukuran == 2)
     {
@@ -324,8 +327,10 @@ void runGame()
         displayGame(ukuran);
         displayPapan2(places);
         result(win2(places));
-        readHighScore();
-        saveFile();
+        if (win2(places) != 0)
+        {
+            draw = 0;
+        }
     }
     else if (game.ukuran == 3)
     {
@@ -340,7 +345,6 @@ void runGame()
         int i;
         for (i = 0; i < 49 && win3(places) == 0; i++)
         {
-            // system("cls");
             displayGame(ukuran);
             displayPapan3(places);
             displayPetunjuk(ukuran);
@@ -357,6 +361,13 @@ void runGame()
         displayGame(ukuran);
         displayPapan3(places);
         result(win3(places));
+        if (win3(places) != 0)
+        {
+            draw = 0;
+        }
+    }
+    if (draw == 0)
+    {
         readHighScore();
         saveFile();
     }
