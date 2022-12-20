@@ -35,7 +35,7 @@ typedef struct
     Player pemenang;
 } Game;
 Game game;
-Game data[100];
+Highscore data[100];
 Highscore score;
 FILE *save;
 /*
@@ -276,6 +276,12 @@ int main()
         displayhighScore();
         system("pause");
         system("cls");
+    }
+    else if (menu == 3)
+    {
+        displayHowToPlay();
+        system("pause");
+        system("cls");
     }}
     return 0;
 }
@@ -289,7 +295,7 @@ int gameMenu()
         displayMenu();
         readMenu(&menu);
         system("cls");
-    } while ((menu < 1 || menu > 2) && menu != 99);
+    } while ((menu < 1 || menu > 3) && menu != 99);
     return menu;
 }
 
@@ -312,17 +318,18 @@ void displayBanner()
 void displayMenu()
 {
     displayBanner();
-    printf("\n\t\t\t\t\t _   _   __     __    _   _   __  __       ");
-    printf("\n\t\t\t\t\t| |_| | |__| | |  |  | |_| | |_  |  | |  | ");
-    printf("\n\t\t\t\t\t|     | |  | | |  |  |     | |__ |  | |__| \n");
-    printf("\n\t\t\t\t\t\t\t(1)  GAME  ");
-    printf("\n\t\t\t\t\t\t\t(2)  HIGH SCORE");
-    printf("\n\t\t\t\t\t\t\t(99) QUIT GAME ");
+    gotoxy(39,7);printf(" _   _   __     __    _   _   __  __       ");
+    gotoxy(39,8);printf("| |_| | |__| | |  |  | |_| | |_  |  | |  | ");
+    gotoxy(39,9);printf("|     | |  | | |  |  |     | |__ |  | |__| \n");
+    gotoxy(53,11);printf("(1)  GAME  ");
+    gotoxy(53,12);printf("(2)  HIGH SCORE");
+    gotoxy(53,13);printf("(3)  HOW TO PLAY");
+    gotoxy(53,14);printf("(99) QUIT GAME ");
 }
 
 void readMenu(int *menu)
 {
-    if ((*menu < 1 || *menu > 2) && *menu != 99)
+    if ((*menu < 1 || *menu > 3) && *menu != 99)
     {
         printf("\nInputan salah!");
     }
@@ -974,14 +981,14 @@ void readHighScore(){
     score.score = game.pemenang.score;
     readDataHighscore();
     for(i = 0; i < 100; i++){
-        if(strcmp(score.nama, data[i].pemenang.nama)==0){
-            data[i].pemenang.score = data[i].pemenang.score + 1;
+        if(strcmp(score.nama, data[i].nama)==0){
+            data[i].score = data[i].score + 1;
             i=100;
         }
     }
     if(i==100){
-    strcpy(data[20].pemenang.nama, score.nama);
-    data[20].pemenang.score = score.score;
+    strcpy(data[20].nama, score.nama);
+    data[20].score = score.score;
     }
 }
 
@@ -989,7 +996,7 @@ void saveFile(){
     FILE *save = fopen("Data_Highscore.txt","w");
     sortdata();
     for(int i=0;i<100;i++){
-    fprintf(save,"%s %d\n", &(data[i]).pemenang.nama, data[i].pemenang.score);
+    fprintf(save,"%s %d\n", &(data[i]).nama, data[i].score);
     }
     fclose(save);
 }
@@ -1004,7 +1011,7 @@ void readDataHighscore(){
     }
 
     while (ch!=EOF){
-        fscanf(save," %s %d", &data[i].pemenang.nama, &data[i].pemenang.score);
+        fscanf(save," %s %d", &data[i].nama, &data[i].score);
         ch=fgetc(save);
         i++;
     }
@@ -1044,7 +1051,7 @@ void displayhighScore(){
     // {
         i=0;
         gotoxy(48,k);
-        printf("%d | %s  %d",i+1,data[i].pemenang.nama, data[i].pemenang.score);
+        printf("%d | %s  %d",i+1,data[i].nama, data[i].score);
         // i++;
         // k=k+2;
     //}
@@ -1055,13 +1062,13 @@ void sortdata(){
     Highscore temp;
     for (int i=0; i < (100-1); i++){
         for (int j=0 ; j< (99-i);j++){
-            if ((data[j].pemenang.score < data[j+1].pemenang.score)&& (data[j+1].pemenang.score != 0)){
-                strcpy(temp.nama, data[j].pemenang.nama);
-                temp.score = data[j].pemenang.score;
-                strcpy(data[j].pemenang.nama, data[j+1].pemenang.nama);
-                data[j].pemenang.score = data[j+1].pemenang.score;
-                strcpy(data[j+1].pemenang.nama, temp.nama);
-                data[j+1].pemenang.score = temp.score;
+            if ((data[j].score < data[j+1].score)&& (data[j+1].score != 0)){
+                strcpy(temp.nama, data[j].nama);
+                temp.score = data[j].score;
+                strcpy(data[j].nama, data[j+1].nama);
+                data[j].score = data[j+1].score;
+                strcpy(data[j+1].nama, temp.nama);
+                data[j+1].score = temp.score;
             }
         }
     }
@@ -1069,5 +1076,30 @@ void sortdata(){
 
 void displayHowToPlay()
 {
-
+    displayBanner();
+    gotoxy(37,7);printf("      __            ___  __     __       __        ");
+    gotoxy(37,8);printf("|__| |  | |  _  |    |  |  |   |__| |   |__| |__|  ");
+    gotoxy(37,9);printf("|  | |__| |_| |_|    |  |__|   |    |__ |  |  __| \n");
+    gotoxy(10,11);printf("1. Untuk memulai permainan, pada display menu pilihlah new game.");
+    gotoxy(10,12);printf("2. Setelah memilih new game, pilihlah  ukuran papan permainan yang akan dimainkan (3x3,5x5,7x7).");
+    gotoxy(10,13);printf("3. Input nama dari kedua pemain sebagai petunjuk pemain pertama dan kedua akan memakai simbol apa saat");
+    gotoxy(13,14);printf("bermain.");
+    gotoxy(10,15);printf("4. Mulailah bermain dengan ketentuan permainan Tic-Tac-Toe.");
+    gotoxy(10,16);printf("5. Permainan Tic-Tac-Toe adalah permainan yang memberikan kondisi menang Ketika ada beberapa simbol sejajar");
+    gotoxy(13,17);printf("dengan ketentuan tertentu sesuai jenis ukuran papan yang dipilih");
+    gotoxy(10,18);printf("6. Pada papan 3x3, maka pemain harus membubat simbol berderet 3 bidang secara horizontal,vertical, atau");
+    gotoxy(13,19);printf("diagonal.");
+    gotoxy(10,20);printf("7. Pada papan 5x5, maka pemain harus membubat simbol berderet 4 bidang secara horizontal,vertical,diagonal.");
+    gotoxy(10,21);printf("8. Pada papan 7x7, maka pemain harus membubat simbol berderet 5 bidang secara horizontal,vertical,diagonal.");
+    gotoxy(10,22);printf("9. Jika kondisi pada nomer 6-8 terpenuhi pada ukuran papan yang sesuai maka kondisi menang ada di tangan anda.");
+    gotoxy(10,23);printf("10. Sebaliknya jika lawan bisa lebih cepat, maka pihak lawan yang akan memenangkan permainan.");
+    gotoxy(10,24);printf("11. Jika menang dalam satu ronde, nama akan dicatat dan diberi poin 1(bersifat kumulatif).");
+    gotoxy(10,25);printf("12. Jika terjadi kondisi seri, maka kedua pemain tidak mendapatkan poin (0 poin).");
+    gotoxy(10,26);printf("13. Jika kalah dalam satu ronde, pemain tidak akan mendapatkan poin (0 poin");
+    gotoxy(10,27);printf("14. Terdapat fitur highscore, sehingga nama pemain yang memiliki poin lebih tinggi akan dicatat dan terlihat");
+    gotoxy(13,28);printf("di program.");
+    gotoxy(10,29);printf("15. Jika ingin melihat highscore keseluruhan bisa memilih di bagian main menu game pada awal program.");
+    gotoxy(10,30);printf("16. Jika ingin exit saat bermain dapat memilih quit game di main menu game.");
+    gotoxy(50,32);printf("SELAMAT BERMAIN!!!!!");
+    gotoxy(50,33);
 }
